@@ -1,0 +1,11 @@
+build-paper
+*.aux
+*.log
+*.bbl
+.*.swo
+*.blg
+*.dvi
+*.ps
+*.pdf
+.*.swp
+.ipynb_checkpoints/
