@@ -6,6 +6,6 @@ build-paper
 *.blg
 *.dvi
 *.ps
-*.pdf
+ms.pdf
 .*.swp
 .ipynb_checkpoints/
