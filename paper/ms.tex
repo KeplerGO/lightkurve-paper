@@ -1,6 +1,5 @@
 \documentclass{article}
-\usepackage{amsmath, amssymb, bm}
-\usepackage{bm}
+\usepackage{amsmath, amssymb, mathtools, bm}
 \usepackage{graphicx, graphics}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
@@ -121,7 +120,7 @@ As a result, Fig~\ref{fig:cbv-correction} illustrates the correction.
 
 In this setting, the user is left to choose the cost function and the number
 of CBVs. It is often the case where $p=1$ yields robust (non-overfitted) results.
-In fact, $p=1$ defines the $L_1$-norm which is robust against outliers [add reference].
+In fact, $p=1$ defines the $\ell_1$-norm which is robust against outliers [add reference].
 
 The number of CBVs will directly contribute to overfitting effects. One
 way to identify a reasonable number of CBVs is to perform a grid search
@@ -132,6 +131,20 @@ as suggested in Fig~(\ref{fig:cbv-grid-search}).
     \includegraphics[scale=.5]{figs/cbv-grid-search.pdf}
     \caption{Grid search on the number of CBVs}
     \label{fig:cbv-grid-search}
+\end{figure}
+
+In the same fashion, we can apply cotrending basis vector correction to
+\mathcal{K}\mathit{2} lightcurves.
+
+For example, Fig.~\ref{fig:cbv-correction-k2} shows the result after estimating
+the first nine coefficients for CBV correciton on target \texttt{EPIC 201543306}.
+The selection of the number of CBVs is also done empirically by inspecting the
+grid search curve.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=.5]{figs/cbv-k2.pdf}
+    \caption{CBV correction applied on \texttt{EPIC 201543306}.}
+    \label{fig:cbv-correction-k2}
 \end{figure}
 
 \subsection{Point spread function photometry}
