@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb, mathtools, bm}
 \usepackage{graphicx, graphics}
+\usepackage{array}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \title{PyKE: Open source Python data analysis for NASA's Kepler, K2, and TESS missions}
@@ -20,29 +21,37 @@
     \subsection{The \texttt{LightCurve} class}
         A \texttt{LightCurve} object can be instantiated by passing a \texttt{time}
         array, a \texttt{flux} array, and optionally a \texttt{flux\_err} array which
-        accounts for uncertainties in the \texttt{flux} measurements.
+        accounts for uncertainties in the \texttt{flux} measurements, i.e.,
         \begin{verbatim}
         from pyke.lightcurve import LightCurve
         lc = LightCurve(time, flux)
         \end{verbatim}
 
-        Once instantiated, a \texttt{LightCurve} object provides methods such
-        as:
-        \begin{description}
-            \item[\texttt{stitch}]: appends the attributes \texttt{flux},
+        \texttt{LightCurve} object provides methods described in
+        Table~(\ref{tab:methods})
+
+        \begin{table}[!htb]
+            \centering
+            \caption{A subset of methods provided by the \texttt{LightCurve} class}
+            \begin{tabular}{cp{7cm}}
+                \hline
+                \textbf{Method signature} & \textbf{Short description} \\
+                \hline
+                \texttt{stitch} & appends the attributes \texttt{flux},
                 \texttt{time}, and \texttt{flux\_err} of other given
-                \texttt{LighCurve} objects.
-            \item[\texttt{flatten}]: applies a Savitzky-Golay filter to capture
+                \texttt{LighCurve} objects.\\
+                \texttt{flatten} & applies a Savitzky-Golay filter to capture
                 low frequency flux variations which can be then removed in order
-                to aid transit detection algorithms.
-            \item[\texttt{fold}]: folds a lightcurve at a given period and
-                phase.
-            \item[\texttt{bin}]: bins a lightcurve using a block mean or median.
-            \item[\texttt{cdpp}]: computes the Combined Differential Photometric
+                to aid transit detection algorithms.\\
+                \texttt{fold} & folds a lightcurve at a given period and phase.\\
+                \texttt{bin} &  bins a lightcurve using a block mean or median.\\
+                \texttt{cdpp} &  computes the Combined Differential Photometric
                 Precision (CDPP) metric, which is a proxy for the amount of
-                scatter in the lightcurve signal.
-            \item[\texttt{plot}]: plots a lightcurve in a user-friendly fashion.
-        \end{description}
+                scatter in the lightcurve signal. \\
+                \texttt{plot} & displays a lightcurve.
+            \end{tabular}
+            \label{tab:methods}
+        \end{table}
 
        The \texttt{KeplerLightCurve} class extends \texttt{LightCurve} by
        adding attributes to store metadata information such as channel number,
@@ -68,14 +77,48 @@
 
         Therefore, one can, for example, perform the following series of operations
         in order to fold a lightcurve from the MAST archive
-        \begin{verbatim}
-        lc_file = KeplerLightCurveFile(path=PATH_TO_FILE)
-        klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=10.8234)
-        klc.plot()
-        \end{verbatim}
-        [use a real example here]
+\begin{verbatim}
+>>> lc_file = KeplerLightCurveFile("https://archive.stsci.edu/missions/kepler/"
+... "lightcurves/0119/011904151/kplr011904151-2009350155506_llc.fits")
+>>> klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=10.8234)
+>>> klc.plot()
+\end{verbatim}
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=.5]{figs/fold-lc.pdf}
+            \caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
+            transit signal of Kepler-10b.}
+            \label{fig:fold-method}
+        \end{figure}
 
 \section{Target Pixel File Basics}
+    \subsection{The \texttt{KeplerTargetPixelFile} class}
+        A \texttt{KeplerTargetPixelFile} object can be instantiated
+        by passing a \texttt{path} (URL or local) of a target pixel file.
+        Optionally, the user the select to throw away frames that contain
+        a specific flag by using the \texttt{quality\_bitmask} argument.
+
+        \texttt{KeplerTargetPixelFile} offers a number of methods
+        that range from getting raw aperture photometry lightcurves to
+        data visualization.
+
+        For instance, the method \texttt{plot} can be used to visualize a
+        given frame, which are depicted in Fig.~\ref{}
+\begin{verbatim}
+import numpy as np
+from pyke import KeplerTargetPixelFile
+tpf = KeplerTargetPixelFile('kplr008462852-2011073133259_lpd-targ.fits.gz')
+tpf.plot()
+tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
+\end{verbatim}
+
+        \begin{figure}[!htb]
+            \includegraphics[scale=.4]{figs/tpf-plot.pdf}
+            \includegraphics[scale=.4]{figs/tpf-plot-aperture.pdf}
+            \caption{}
+            \label{fig:plot-method}
+        \end{figure}
+
 
 \section{Tools}
 
@@ -134,7 +177,7 @@ as suggested in Fig~(\ref{fig:cbv-grid-search}).
 \end{figure}
 
 In the same fashion, we can apply cotrending basis vector correction to
-\mathcal{K}\mathit{2} lightcurves.
+$\mathcal{K}\mathit{2}$ lightcurves.
 
 For example, Fig.~\ref{fig:cbv-correction-k2} shows the result after estimating
 the first nine coefficients for CBV correciton on target \texttt{EPIC 201543306}.
@@ -193,6 +236,9 @@ Another important aspect is the PSF model...
 \subsection{Motion-dependent Correlated Noise}
 \label{subsection:motion}
 
-
+\section{Acknowledgments}
+PyKE is build on top of numerous packages that constitute the Python scientific
+stack, more precisely, \texttt{numpy}, \texttt{scipy}, \texttt{matplotlib}, and
+\texttt{astropy}.
 
 \end{document}
