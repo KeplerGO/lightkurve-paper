@@ -2,10 +2,12 @@
 \usepackage{amsmath, amssymb, mathtools, bm}
 \usepackage{graphicx, graphics}
 \usepackage{array}
+\usepackage{geometry}
+\geometry{lmargin=3cm, tmargin=3cm, bmargin=2cm, rmargin=2cm}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
-\title{PyKE: Open source Python data analysis for NASA's Kepler, K2, and TESS missions}
-\author{PyKE Contributors}
+\title{\texttt{lightkurve}: Open source Python data analysis for NASA's Kepler, K2, and TESS missions}
+\author{\texttt{lightkurve} and PyKE Contributors}
 \date{\today}
 
 \begin{document}
@@ -23,7 +25,7 @@
         array, a \texttt{flux} array, and optionally a \texttt{flux\_err} array which
         accounts for uncertainties in the \texttt{flux} measurements, i.e.,
         \begin{verbatim}
-        from pyke.lightcurve import LightCurve
+        from lightkurve.lightcurve import LightCurve
         lc = LightCurve(time, flux)
         \end{verbatim}
 
@@ -33,7 +35,7 @@
         \begin{table}[!htb]
             \centering
             \caption{A subset of methods provided by the \texttt{LightCurve} class}
-            \begin{tabular}{cp{7cm}}
+            \begin{tabular}{cp{12cm}}
                 \hline
                 \textbf{Method signature} & \textbf{Short description} \\
                 \hline
@@ -80,7 +82,7 @@
 \begin{verbatim}
 >>> lc_file = KeplerLightCurveFile("https://archive.stsci.edu/missions/kepler/"
 ... "lightcurves/0119/011904151/kplr011904151-2009350155506_llc.fits")
->>> klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=10.8234)
+>>> klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=0.837495)
 >>> klc.plot()
 \end{verbatim}
         \begin{figure}[!htb]
@@ -103,10 +105,10 @@
         data visualization.
 
         For instance, the method \texttt{plot} can be used to visualize a
-        given frame, which are depicted in Fig.~\ref{}
+        given frame, which are depicted in Fig.~\ref{fig:plot-method}.
 \begin{verbatim}
 import numpy as np
-from pyke import KeplerTargetPixelFile
+from lightkurve import KeplerTargetPixelFile
 tpf = KeplerTargetPixelFile('kplr008462852-2011073133259_lpd-targ.fits.gz')
 tpf.plot()
 tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
@@ -115,7 +117,9 @@ tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
         \begin{figure}[!htb]
             \includegraphics[scale=.4]{figs/tpf-plot.pdf}
             \includegraphics[scale=.4]{figs/tpf-plot-aperture.pdf}
-            \caption{}
+            \caption{Displaying a given frame of a TPF using \texttt{plot}.
+            Optionally, an \texttt{aperture\_mask} can be passed which is
+            highlighted on the right hand side.}
             \label{fig:plot-method}
         \end{figure}
 
@@ -128,9 +132,12 @@ Cotrending basis vectors (CBVs) correction consists in removing global correlate
 systematics that occurs in a given channel [add reference]. The procedure of
 designing the CBVs is discussed in [add reference].
 
-Briefly, given a set of $n$ CBVs, one is interested in finding a set of $n$
+Briefly, given a set of $n$ CBVs, one is interested in finding a vector of $n$
 coefficients $\bm{\theta}=(\theta_1, \theta_2, ..., \theta_n)$ which minimizes
 some cost function between the SAP flux and the set of CBVs.
+
+The mathematical structure of the cost function is a direct consequence of
+the statistical assumptions made for data.
 
 The following cost function is often used
 \begin{align}
@@ -147,7 +154,7 @@ Then, the cbv-corrected flux can be computed as
 A runnable example of SAP flux correction for target \texttt{KOI 8462852}
 can be written as follows
 \begin{verbatim}
-from pyke.lightcurve import KeplerCBVCorrector
+from lightkurve.lightcurve import KeplerCBVCorrector
 cbv = KeplerCBVCorrector("https://archive.stsci.edu/missions/kepler/lightcurves/"
                          "0084/008462852/kplr008462852-2011073133259_llc.fits")
 cbv_lc = cbv.correct(cbvs=[1,2])
@@ -192,10 +199,10 @@ grid search curve.
 
 \subsection{Point spread function photometry}
 
-PyKE contains routines to perform PSF photometry in TPFs
+lightkurve contains routines to perform PSF photometry in TPFs
 which are implemented in the \texttt{psf} module.
 
-Briefly, the PSF photometry problem that PyKE solves can be formulated as
+Briefly, the PSF photometry problem that lightkurve solves can be formulated as
 follows. Given an image $\bm{y}$, with $n$ pixels and $m$ stars, and a PSF model
 $\lambda(\bm{\theta}) = \sum_{j=1}^{m} \lambda({\theta}_j)$,
 find the best parameter vector
@@ -207,8 +214,8 @@ A runnable code to perform PSF photometry in \texttt{EPIC 246199087}
 (Trappist-1), can be written as follows:
 
 \begin{verbatim}
-from pyke import KeplerTargetPixelFile
-from pyke.psf import PRFPhotometry, SceneModel
+from lightkurve import KeplerTargetPixelFile
+from lightkurve.psf import PRFPhotometry, SceneModel
 from oktopus import UniformPrior
 
 tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
@@ -237,7 +244,7 @@ Another important aspect is the PSF model...
 \label{subsection:motion}
 
 \section{Acknowledgments}
-PyKE is build on top of numerous packages that constitute the Python scientific
+lightkurve is build on top of numerous packages that constitute the Scientific Python
 stack, more precisely, \texttt{numpy}, \texttt{scipy}, \texttt{matplotlib}, and
 \texttt{astropy}.
 
