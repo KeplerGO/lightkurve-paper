@@ -10,3 +10,4 @@ ms.pdf
 .*.swp
 .ipynb_checkpoints/
 .DS_Store
+*.eps
