@@ -15,7 +15,7 @@ from pyke import KeplerCBVCorrector, KeplerLightCurveFile
 fn = ("https://archive.stsci.edu/missions/kepler/lightcurves/"
       "0084/008462852/kplr008462852-2011073133259_llc.fits")
 cbv = KeplerCBVCorrector(fn)
-cbv_lc = cbv.correct()
+cbv_lc = cbv.correct(cbvs=list(range(1, 11)))
 sap_lc = KeplerLightCurveFile(fn).SAP_FLUX
 pdcsap_lc = KeplerLightCurveFile(fn).PDCSAP_FLUX
 plt.plot(sap_lc.time, sap_lc.flux/1e4, 'ko', markersize=1.5)

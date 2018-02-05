@@ -12,10 +12,16 @@ rc('font', **font)
 
 from pyke import KeplerCBVCorrector, KeplerLightCurveFile
 
+#fn = ("https://archive.stsci.edu/missions/k2/lightcurves/"
+#      "c14/201500000/43000/ktwo201543306-c14_llc.fits")
+
 fn = ("https://archive.stsci.edu/missions/k2/lightcurves/"
-      "c14/201500000/43000/ktwo201543306-c14_llc.fits")
+      "c14/248600000/67000/ktwo248667471-c14_llc.fits")
+
 cbv = KeplerCBVCorrector(fn)
-cbv_lc = cbv.correct(cbvs=[1, 2, 3, 4, 5, 6, 7, 8, 9])
+cbv_list = cbv.get_cbvs_list()
+print(cbv_list)
+cbv_lc = cbv.correct(cbvs=cbv_list)
 sap_lc = KeplerLightCurveFile(fn).SAP_FLUX
 pdcsap_lc = KeplerLightCurveFile(fn).PDCSAP_FLUX
 plt.plot(sap_lc.time, sap_lc.flux/1e4, 'ko', markersize=1.5)
