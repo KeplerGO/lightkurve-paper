@@ -107,22 +107,22 @@
         For instance, the method \texttt{plot} can be used to visualize a
         given frame, which are depicted in Fig.~\ref{fig:plot-method}.
 \begin{verbatim}
-import numpy as np
-from lightkurve import KeplerTargetPixelFile
-tpf = KeplerTargetPixelFile('kplr008462852-2011073133259_lpd-targ.fits.gz')
-tpf.plot()
-tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
+>>> import numpy as np
+>>> from lightkurve import KeplerTargetPixelFile
+>>> tpf = KeplerTargetPixelFile('kplr008462852-2011073133259_lpd-targ.fits.gz')
+>>> tpf.plot()
+>>> tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
 \end{verbatim}
 
-        \begin{figure}[!htb]
-            \includegraphics[scale=.4]{figs/tpf-plot.pdf}
-            \includegraphics[scale=.4]{figs/tpf-plot-aperture.pdf}
-            \caption{Displaying a given frame of a TPF using \texttt{plot}.
-            Optionally, an \texttt{aperture\_mask} can be passed which is
-            highlighted on the right hand side.}
-            \label{fig:plot-method}
-        \end{figure}
-
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=.4]{figs/tpf-plot.pdf}
+    \includegraphics[scale=.4]{figs/tpf-plot-aperture.pdf}
+    \caption{Displaying a given frame of a TPF using \texttt{plot}.
+    Optionally, an \texttt{aperture\_mask} can be passed which is
+    highlighted on the right hand side.}
+    \label{fig:plot-method}
+\end{figure}
 
 \section{Tools}
 
@@ -134,17 +134,37 @@ designing the CBVs is discussed in [add reference].
 
 Briefly, given a set of $n$ CBVs, one is interested in finding a vector of $n$
 coefficients $\bm{\theta}=(\theta_1, \theta_2, ..., \theta_n)$ which minimizes
-some cost function between the SAP flux and the set of CBVs.
+some cost function between the SAP flux and the set of CBVs. The mathematical
+structure of the cost function is a direct consequence of the statistical
+assumptions made for data.
 
-The mathematical structure of the cost function is a direct consequence of
-the statistical assumptions made for data.
-
-The following cost function is often used
+For instance, if one assumes that the data comes from an independent and
+identically distributed (iid) multivariate Gaussian distribution with mean
+$\sum_{j=1}^{n}\theta_j v_{j}(t)$ and known variance $\sigma^2$, then the
+cost function can be expressed as follows
 \begin{align}
-    \bm{\theta}^{*} = \argmin_{\bm{\theta} \in \Theta} \sum_{t}|f_{SAP}(t)
-    - \sum_{j=1}^{n}\theta_j v_{j}(t)|^p, p>0, p \in \mathbb{R},
+    \mathcal{C}(\bm{\theta}, f_{SAP}) = \sum_{t}\left(f_{SAP}(t)
+    - \sum_{j=1}^{n}\theta_j v_{j}(t)\right)^2,
+\label{eq:chi-square}
 \end{align}
 in which $f_{SAP}$ is the SAP flux and $v_j$ is the $j$-th CBV.
+
+The maximum likelihood estimator for $\bm{\theta}$, $\bm{\theta^{*}}$ can be
+expressed as
+\begin{align}
+    \bm{\theta}^{*} = \argmin_{\bm{\theta} \in \Theta}
+    \mathcal{C}(\bm{\theta}, f_{SAP}).
+\end{align}
+
+However,~(\ref{eq:chi-square} is known to be sensitive to outliers [add reference],
+therefore, as a default behaviour in \texttt{lightkurve}, we use the following cost
+function
+\begin{align}
+    \mathcal{C}(\bm{\theta}, f_SAP) = \sum_{t} \left\rvert f_{SAP}(t)
+    - \sum_{j=1}^{n}\theta_j v_{j}(t)\right\rvert,
+\label{eq:l1-norm}
+\end{align}
+
 
 Then, the cbv-corrected flux can be computed as
 \begin{equation}
@@ -152,15 +172,15 @@ Then, the cbv-corrected flux can be computed as
 \end{equation}
 
 A runnable example of SAP flux correction for target \texttt{KOI 8462852}
-can be written as follows
+(Tabby's star) can be written as follows
 \begin{verbatim}
-from lightkurve.lightcurve import KeplerCBVCorrector
-cbv = KeplerCBVCorrector("https://archive.stsci.edu/missions/kepler/lightcurves/"
-                         "0084/008462852/kplr008462852-2011073133259_llc.fits")
-cbv_lc = cbv.correct(cbvs=[1,2])
+>>> from lightkurve.lightcurve import KeplerCBVCorrector
+>>> cbv = KeplerCBVCorrector("https://archive.stsci.edu/missions/kepler/lightcurves/"
+    ...                          "0084/008462852/kplr008462852-2011073133259_llc.fits")
+>>> cbv_lc = cbv.correct(cbvs=[1,2])
 \end{verbatim}
+Fig~\ref{fig:cbv-correction} illustrates the correction.
 
-As a result, Fig~\ref{fig:cbv-correction} illustrates the correction.
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=.5]{figs/cbv.pdf}
@@ -168,14 +188,27 @@ As a result, Fig~\ref{fig:cbv-correction} illustrates the correction.
     \label{fig:cbv-correction}
 \end{figure}
 
-In this setting, the user is left to choose the cost function and the number
-of CBVs. It is often the case where $p=1$ yields robust (non-overfitted) results.
-In fact, $p=1$ defines the $\ell_1$-norm which is robust against outliers [add reference].
+In the same fashion, we can apply cotrending basis vector correction to
+$\mathcal{K}\mathit{2}$ lightcurves.
 
+As an example, Fig.~\ref{fig:cbv-correction-k2} illustrates the result after
+estimating the first nine coefficients for CBV correciton on target
+\texttt{EPIC 201543306}.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=.5]{figs/cbv-k2.pdf}
+    \caption{CBV correction applied on \texttt{EPIC 201543306}.}
+    \label{fig:cbv-correction-k2}
+\end{figure}
+
+\subsubsection{Number of CBVs}
 The number of CBVs will directly contribute to overfitting effects. One
 way to identify a reasonable number of CBVs is to perform a grid search
-as suggested in Fig~(\ref{fig:cbv-grid-search}).
-
+as suggested in Fig~(\ref{fig:cbv-grid-search}), which shows the cost
+function as a function of the number of CBVs. Usually, as the number of
+CBVs increases, the value of the cost function decreases. And therefore,
+the user should empirically choose a number of CBVs which does not
+remove the astrophysical signal of interest [add reference].
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=.5]{figs/cbv-grid-search.pdf}
@@ -183,19 +216,27 @@ as suggested in Fig~(\ref{fig:cbv-grid-search}).
     \label{fig:cbv-grid-search}
 \end{figure}
 
-In the same fashion, we can apply cotrending basis vector correction to
-$\mathcal{K}\mathit{2}$ lightcurves.
+An objective way of selecting the number of CBVs is to use Bayes' factors
+[add reference]. In the Bayes' factor setting, the selected number of
+CBVs is the one that provide the least gain in posterior probability, i.e.,
+for all ordered pairs of CBVs, the Bayes factor selects $n^{*}$ number of CBVs
+as follows
+\begin{align}
+    n^{*} = \argmin_{n} $\dfrac{p_{n+1}}{p_n}$,
+\end{align}
+in which $p_n$ is the posterior probability evaluated at the Maximum A Posteriori
+Estimator (MAP) obtained using $n$ CBVs.
 
-For example, Fig.~\ref{fig:cbv-correction-k2} shows the result after estimating
-the first nine coefficients for CBV correciton on target \texttt{EPIC 201543306}.
-The selection of the number of CBVs is also done empirically by inspecting the
-grid search curve.
+A Laplacian prior with zero mean and variance $16$ is the default prior
+density over the CBVs coefficients.
+
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=.5]{figs/cbv-k2.pdf}
-    \caption{CBV correction applied on \texttt{EPIC 201543306}.}
-    \label{fig:cbv-correction-k2}
+    \includegraphics[scale=.5]{figs/cbv-bayes-factor.pdf}
+    \caption{Bayes factors as a function of the number of CBVs for \texttt{EPIC 201543306}}
+    \label{fig:cbv-grid-search}
 \end{figure}
+
 
 \subsection{Point spread function photometry}
 
@@ -214,17 +255,15 @@ A runnable code to perform PSF photometry in \texttt{EPIC 246199087}
 (Trappist-1), can be written as follows:
 
 \begin{verbatim}
-from lightkurve import KeplerTargetPixelFile
-from lightkurve.psf import PRFPhotometry, SceneModel
-from oktopus import UniformPrior
-
-tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
-prf = tpf.get_prf_model()
-prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
-scene = SceneModel(prf=[prfs])
-
-phot = PRFPhotometry(scene_model=scene, prior=prior)
-results = phot.fit(tpf.flux + tpf.flux_bkg)
+>>> from lightkurve import KeplerTargetPixelFile
+>>> from lightkurve.psf import PRFPhotometry, SceneModel
+>>> from oktopus import UniformPrior
+>>> tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
+>>> prf = tpf.get_prf_model()
+>>> prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
+>>> scene = SceneModel(prf=[prfs])
+>>> phot = PRFPhotometry(scene_model=scene, prior=prior)
+>>> results = phot.fit(tpf.flux + tpf.flux_bkg)
 \end{verbatim}
 
 The photometric results are stored in the $c \times 4$ matrix, where $c$ is the
