@@ -29,8 +29,8 @@
         lc = LightCurve(time, flux)
         \end{verbatim}
 
-        \texttt{LightCurve} object provides methods described in
-        Table~(\ref{tab:methods})
+        The \texttt{LightCurve} object provides methods described in
+        Table~(\ref{tab:methods}).
 
         \begin{table}[!htb]
             \centering
@@ -97,7 +97,7 @@
     \subsection{The \texttt{KeplerTargetPixelFile} class}
         A \texttt{KeplerTargetPixelFile} object can be instantiated
         by passing a \texttt{path} (URL or local) of a target pixel file.
-        Optionally, the user the select to throw away frames that contain
+        Optionally, the user can elect to throw away frames that contain
         a specific flag by using the \texttt{quality\_bitmask} argument.
 
         \texttt{KeplerTargetPixelFile} offers a number of methods
@@ -128,11 +128,10 @@
 
 \subsection{Cotrending basis vectors}
 
-Cotrending basis vectors (CBVs) correction consists in removing global correlated
-systematics that occurs in a given channel [add reference]. The procedure of
-designing the CBVs is discussed in [add reference].
+Cotrending basis vectors (CBVs) can remove global correlated
+systematics present in a given channel \cite{2012PASP..124.1000S}.
 
-Briefly, given a set of $n$ CBVs, one is interested in finding a vector of $n$
+Given a set of $n$ CBVs, one is interested in finding a vector of $n$
 coefficients $\bm{\theta}=(\theta_1, \theta_2, ..., \theta_n)$ which minimizes
 some cost function between the SAP flux and the set of CBVs. The mathematical
 structure of the cost function is a direct consequence of the statistical
@@ -166,12 +165,12 @@ function
 \end{align}
 
 
-Then, the cbv-corrected flux can be computed as
+Then, the CBV-corrected flux can be computed as
 \begin{equation}
     f_{CBV} = f_{SAP} - \sum_{j=1}^{n}\theta^{*}_j v_{j}(t).
 \end{equation}
 
-A runnable example of SAP flux correction for target \texttt{KOI 8462852}
+An example of SAP flux correction for target \texttt{KOI 8462852}
 (Tabby's star) can be written as follows
 \begin{verbatim}
 >>> from lightkurve.lightcurve import KeplerCBVCorrector
@@ -179,6 +178,7 @@ A runnable example of SAP flux correction for target \texttt{KOI 8462852}
     ...                          "0084/008462852/kplr008462852-2011073133259_llc.fits")
 >>> cbv_lc = cbv.correct(cbvs=[1,2])
 \end{verbatim}
+
 Fig~\ref{fig:cbv-correction} illustrates the correction.
 
 \begin{figure}[!htb]
@@ -188,12 +188,21 @@ Fig~\ref{fig:cbv-correction} illustrates the correction.
     \label{fig:cbv-correction}
 \end{figure}
 
+\cite{2014sdmm.book.....I}.
+
+Improperly tuning the number of CBVs can cause over-/under-fitting. One
+way to identify a reasonable number of CBVs is to perform a grid search
+as shown in Fig~(\ref{fig:cbv-grid-search}).
+
 In the same fashion, we can apply cotrending basis vector correction to
 $\mathcal{K}\mathit{2}$ lightcurves.
 
-As an example, Fig.~\ref{fig:cbv-correction-k2} illustrates the result after
-estimating the first nine coefficients for CBV correciton on target
-\texttt{EPIC 201543306}.
+Fig.~\ref{fig:cbv-correction-k2} shows the detrended lightcurve after estimating
+the first nine coefficients for CBV correciton on $\mathcal{K}\mathit{2}$ target
+ \texttt{EPIC 201543306}. The selection of the number of CBVs is set by inspecting the
+grid search curve can be set through model comparison heuristics like AIC, BIC,
+or cross-validation \cite{2014sdmm.book.....I}.
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=.5]{figs/cbv-k2.pdf}
@@ -209,6 +218,7 @@ function as a function of the number of CBVs. Usually, as the number of
 CBVs increases, the value of the cost function decreases. And therefore,
 the user should empirically choose a number of CBVs which does not
 remove the astrophysical signal of interest [add reference].
+
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=.5]{figs/cbv-grid-search.pdf}
@@ -216,6 +226,9 @@ remove the astrophysical signal of interest [add reference].
     \label{fig:cbv-grid-search}
 \end{figure}
 
+
+% MGS note: Wait--- won't the cost function decrease monotonically for CBVs?
+% Do you use AIC or BIC or cross-validation?
 An objective way of selecting the number of CBVs is to use Bayes' factors
 [add reference]. In the Bayes' factor setting, the selected number of
 CBVs is the one that provide the least gain in posterior probability, i.e.,
@@ -251,8 +264,8 @@ $\bm{\theta}^{*} = (\theta_1^{*}, \theta_2^{*}, ..., \theta_m^{*})$
 that minimizes some cost (or loss) function $R(\lambda(\bm{\theta}), \bm{y})$
 of assigning $\bm{\theta} = \bm{\theta}^{*}$.
 
-A runnable code to perform PSF photometry in \texttt{EPIC 246199087}
-(Trappist-1), can be written as follows:
+The example below illustrates PSF photometry on the target \texttt{EPIC 246199087}
+(Trappist-1):
 
 \begin{verbatim}
 >>> from lightkurve import KeplerTargetPixelFile
@@ -266,7 +279,7 @@ A runnable code to perform PSF photometry in \texttt{EPIC 246199087}
 >>> results = phot.fit(tpf.flux + tpf.flux_bkg)
 \end{verbatim}
 
-The photometric results are stored in the $c \times 4$ matrix, where $c$ is the
+The photometric results are stored in a $c \times 4$ matrix, where $c$ is the
 number of frames (cadences).
 
 From a probabilistic point of view, one is often interested in minimizing the
@@ -280,11 +293,20 @@ argument.
 Another important aspect is the PSF model...
 
 \subsection{Motion-dependent Correlated Noise}
+
+Spacecraft-induced correlated noise remains one of the greatest hurdles to analyzing K2 lightcurves.  Many algorithms have been developed to mitigate motion-dependent artifacts \cite{vanderburg14}.  Local and global Gaussian Process covariance kernels...
+
 \label{subsection:motion}
 
 \section{Acknowledgments}
 lightkurve is build on top of numerous packages that constitute the Scientific Python
 stack, more precisely, \texttt{numpy}, \texttt{scipy}, \texttt{matplotlib}, and
 \texttt{astropy}.
+
+\clearpage
+
+%% MGS 2/2018: Uncomment below to enable references.
+%\bibliographystyle{aasjournal}
+%\bibliography{ms}
 
 \end{document}
