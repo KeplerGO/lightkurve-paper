@@ -1,41 +1,101 @@
-\documentclass{article}
+%%
+%% Beginning of file 'sample62.tex'
+%%
+%% Modified 2018 January
+%%
+%% This is a sample manuscript marked up using the
+%% AASTeX v6.2 LaTeX 2e macros.
+%%
+%% AASTeX is now based on Alexey Vikhlinin's emulateapj.cls 
+%% (Copyright 2000-2015).  See the classfile for details.
+
+%% AASTeX requires revtex4-1.cls (http://publish.aps.org/revtex4/) and
+%% other external packages (latexsym, graphicx, amssymb, longtable, and epsf).
+%% All of these external packages should already be present in the modern TeX 
+%% distributions.  If not they can also be obtained at www.ctan.org.
+
+%% The first piece of markup in an AASTeX v6.x document is the \documentclass
+%% command. LaTeX will ignore any data that comes before this command. The 
+%% documentclass can take an optional argument to modify the output style.
+%% The command below calls the preprint style  which will produce a tightly 
+%% typeset, one-column, single-spaced document.  It is the default and thus
+%% does not need to be explicitly stated.
+%%
+%%
+%% using aastex version 6.2
+\documentclass[twocolumn]{aastex62}
 \usepackage{amsmath, amssymb, mathtools, bm}
-\usepackage{graphicx, graphics}
-\usepackage{array}
-\usepackage{geometry}
-\geometry{lmargin=3cm, tmargin=3cm, bmargin=2cm, rmargin=2cm}
+
+\newcommand{\KTWO}{$\mathcal{K}\mathit{2}$}
+\newcommand{\lightkurve}{\texttt{lightkurve}}
+\newcommand{\LightCurve}{\texttt{LightCurve}}
+\newcommand{\KeplerLightCurve}{\texttt{KeplerLightCurve}}
+\newcommand{\numpy}{\texttt{numpy}}
+
 \DeclareMathOperator*{\argmin}{arg\,min}
 
-\title{\texttt{lightkurve}: Open source Python data analysis for NASA's Kepler, K2, and TESS missions}
-\author{\texttt{lightkurve} and PyKE Contributors}
-\date{\today}
+\newcommand{\vdag}{(v)^\dagger}
+\newcommand\aastex{AAS\TeX}
+\newcommand\latex{La\TeX}
+
+%% Reintroduced the \received and \accepted commands from AASTeX v5.2
+\received{January 1, 2018}
+\revised{January 7, 2018}
+\accepted{\today}
+%% Command to document which AAS Journal the manuscript was submitted to.
+%% Adds "Submitted to " the arguement.
+\submitjournal{ApJ}
+
+%\shorttitle{Sample article}
+%\shortauthors{Schwarz et al.}
 
 \begin{document}
-\maketitle
+
+\title{An Example Article using \aastex v6.2\footnote{Released on January, 8th, 2018}}
+
+\correspondingauthor{Geert Barentsen}
+\email{hello@geert.io}
+
+\author{\lightkurve contributors}
+\affil{The galatic startup}
+
+\author{August Muench}
+\affiliation{American Astronomical Society \\
+2000 Florida Ave., NW, Suite 300 \\
+Washington, DC 20009-1231, USA}
+\collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
 
+    This paper presents an open source package for NASA's Kepler, \KTWO, and
+    TESS.
+
 \end{abstract}
 
-\section{Introduction}
+%% Keywords should appear after the \end{abstract} command. 
+%% See the online documentation for the full list of available subject
+%% keywords and the rules for their use.
+\keywords{editorials, notices ---
+miscellaneous --- catalogs --- surveys}
+
+\section{Introduction} \label{sec:intro}
+NASA's Kepler and \KTWO~missions have been delivering high-precision time
+series data for a wide range of stellar types.
 
 \section{Lightcurve Basics}
-    \subsection{The \texttt{LightCurve} class}
-        A \texttt{LightCurve} object can be instantiated by passing a \texttt{time}
-        array, a \texttt{flux} array, and optionally a \texttt{flux\_err} array which
-        accounts for uncertainties in the \texttt{flux} measurements, i.e.,
-        \begin{verbatim}
-        from lightkurve.lightcurve import LightCurve
-        lc = LightCurve(time, flux)
-        \end{verbatim}
 
-        The \texttt{LightCurve} object provides methods described in
-        Table~(\ref{tab:methods}).
+\subsection{The \LightCurve~and \KeplerLightCurve~class}
+        The \LightCurve~class is a simple cointainer to store \numpy~arrays
+        (hereafter, arrays) related to flux time-domain measurements.
+
+        The \LightCurve~object provides methods to store, process, and
+        convert lightcurves. Table~\ref{tab:methods} contains a description
+        of a subset of the methods.
 
         \begin{table}[!htb]
             \centering
-            \caption{A subset of methods provided by the \texttt{LightCurve} class}
-            \begin{tabular}{cp{12cm}}
+            \caption{A subset of methods provided by the \LightCurve~class}
+            \begin{tabular}{cp{5cm}}
                 \hline
                 \textbf{Method signature} & \textbf{Short description} \\
                 \hline
@@ -55,7 +115,16 @@
             \label{tab:methods}
         \end{table}
 
-       The \texttt{KeplerLightCurve} class extends \texttt{LightCurve} by
+        A \LightCurve
+        object can be instantiated by passing a \texttt{time} array, a
+        \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
+        which accounts for uncertainties in the \texttt{flux} measurements, i.e.,
+        \begin{verbatim}
+        >>> from lightkurve import LightCurve
+        >>> lc = LightCurve(time, flux)
+        \end{verbatim}
+
+       The \KeplerLightCurve class extends \LightCurve by
        adding attributes to store metadata information such as channel number,
        quality flags, campaign or quarter number, kepler id, etc.
 
@@ -85,13 +154,13 @@
 >>> klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=0.837495)
 >>> klc.plot()
 \end{verbatim}
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=.5]{figs/fold-lc.pdf}
-            \caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
-            transit signal of Kepler-10b.}
-            \label{fig:fold-method}
-        \end{figure}
+
+\begin{figure}
+\plotone{figs/fold-lc.pdf}
+\caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
+            transit signal of Kepler-10b.
+\label{fig:fold-method}}
+\end{figure}
 
 \section{Target Pixel File Basics}
     \subsection{The \texttt{KeplerTargetPixelFile} class}
@@ -116,20 +185,36 @@
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=.4]{figs/tpf-plot.pdf}
-    \includegraphics[scale=.4]{figs/tpf-plot-aperture.pdf}
+    \plotone{figs/tpf-plot.pdf}
+    \plotone{figs/tpf-plot-aperture.pdf}
     \caption{Displaying a given frame of a TPF using \texttt{plot}.
     Optionally, an \texttt{aperture\_mask} can be passed which is
     highlighted on the right hand side.}
     \label{fig:plot-method}
 \end{figure}
 
+In an image with $n$ pixels, where the flux and the center positions of the
+$i$-th pixel are denoted as $f_i$ and $(x_i, y_i)$, respectively, the centroids
+may be expressed as
+\begin{align}
+    x^{\star} = \dfrac{\sum_{i=1}^{n} f_i x_i}{\sum_{i=1}^{n}f_i} \\
+    y^{\star} = \dfrac{\sum_{i=1}^{n} f_i y_i}{\sum_{i=1}^{n}f_i}.
+\end{align}
+
+In \texttt{lightkurve}, the centroids in every cadence can be computed as
+\begin{verbatim}
+>>> from lightkurve import KeplerTargetPixelFile
+>>> tpf = KeplerTargetPixelFile('ktwo246199087-c12_lpd-targ.fits.gz')
+>>> x_star, y_star = tpf.get_centroids()
+\end{verbatim}
+
+
 \section{Tools}
 
 \subsection{Cotrending basis vectors}
 
 Cotrending basis vectors (CBVs) can remove global correlated
-systematics present in a given channel \cite{2012PASP..124.1000S}.
+systematics present in a given channel \cite{smith2012}.
 
 Given a set of $n$ CBVs, one is interested in finding a vector of $n$
 coefficients $\bm{\theta}=(\theta_1, \theta_2, ..., \theta_n)$ which minimizes
@@ -151,16 +236,15 @@ in which $f_{SAP}$ is the SAP flux and $v_j$ is the $j$-th CBV.
 The maximum likelihood estimator for $\bm{\theta}$, $\bm{\theta^{*}}$ can be
 expressed as
 \begin{align}
-    \bm{\theta}^{*} = \argmin_{\bm{\theta} \in \Theta}
-    \mathcal{C}(\bm{\theta}, f_{SAP}).
+    \bm{\theta}^{*} = \argmin_{\bm{\theta} \in \Theta} \mathcal{C}(\bm{\theta}, f_{SAP}).
 \end{align}
 
-However,~(\ref{eq:chi-square} is known to be sensitive to outliers [add reference],
-therefore, as a default behaviour in \texttt{lightkurve}, we use the following cost
+However, Equation~(\ref{eq:chi-square}) is sensitive to outliers~\cite{ivezi2014},
+therefore, as a default behaviour in \lightkurve, we use the following cost
 function
 \begin{align}
     \mathcal{C}(\bm{\theta}, f_SAP) = \sum_{t} \left\rvert f_{SAP}(t)
-    - \sum_{j=1}^{n}\theta_j v_{j}(t)\right\rvert,
+    - \sum_{j=1}^{n}\theta_j v_{j}(t)\right\rvert.
 \label{eq:l1-norm}
 \end{align}
 
@@ -175,39 +259,39 @@ An example of SAP flux correction for target \texttt{KOI 8462852}
 \begin{verbatim}
 >>> from lightkurve.lightcurve import KeplerCBVCorrector
 >>> cbv = KeplerCBVCorrector("https://archive.stsci.edu/missions/kepler/lightcurves/"
-    ...                          "0084/008462852/kplr008462852-2011073133259_llc.fits")
+          ...                "0084/008462852/kplr008462852-2011073133259_llc.fits")
 >>> cbv_lc = cbv.correct(cbvs=[1,2])
 \end{verbatim}
 
-Fig~\ref{fig:cbv-correction} illustrates the correction.
+Fig~\ref{fig:cbv-correction} illustrates the correction. The pink line has a shift from
+the green line because in \lightkurve~we do not account the flux lost outside of the aperture mask.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=.5]{figs/cbv.pdf}
+    \plotone{figs/cbv.pdf}
     \caption{CBV correction applied on \texttt{KOI 8462852}}
     \label{fig:cbv-correction}
 \end{figure}
 
-\cite{2014sdmm.book.....I}.
 
 Improperly tuning the number of CBVs can cause over-/under-fitting. One
 way to identify a reasonable number of CBVs is to perform a grid search
 as shown in Fig~(\ref{fig:cbv-grid-search}).
 
 In the same fashion, we can apply cotrending basis vector correction to
-$\mathcal{K}\mathit{2}$ lightcurves.
+\KTWO lightcurves.
 
 Fig.~\ref{fig:cbv-correction-k2} shows the detrended lightcurve after estimating
-the first nine coefficients for CBV correciton on $\mathcal{K}\mathit{2}$ target
+the first nine coefficients for CBV correciton on \KTWO target
  \texttt{EPIC 201543306}. The selection of the number of CBVs is set by inspecting the
 grid search curve can be set through model comparison heuristics like AIC, BIC,
-or cross-validation \cite{2014sdmm.book.....I}.
+or cross-validation \cite{ivezi2014}.
 
-\begin{figure}[!htb]
+\begin{figure}
     \centering
-    \includegraphics[scale=.5]{figs/cbv-k2.pdf}
-    \caption{CBV correction applied on \texttt{EPIC 201543306}.}
-    \label{fig:cbv-correction-k2}
+    \plotone{figs/cbv-k2.pdf}
+    \caption{CBV correction applied on \texttt{EPIC 201543306}.
+    \label{fig:cbv-correction-k2}}
 \end{figure}
 
 \subsubsection{Number of CBVs}
@@ -221,11 +305,10 @@ remove the astrophysical signal of interest [add reference].
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=.5]{figs/cbv-grid-search.pdf}
+    \plotone{figs/cbv-grid-search.pdf}
     \caption{Grid search on the number of CBVs}
     \label{fig:cbv-grid-search}
 \end{figure}
-
 
 % MGS note: Wait--- won't the cost function decrease monotonically for CBVs?
 % Do you use AIC or BIC or cross-validation?
@@ -235,7 +318,7 @@ CBVs is the one that provide the least gain in posterior probability, i.e.,
 for all ordered pairs of CBVs, the Bayes factor selects $n^{*}$ number of CBVs
 as follows
 \begin{align}
-    n^{*} = \argmin_{n} $\dfrac{p_{n+1}}{p_n}$,
+    n^{*} = \argmin_{n} \dfrac{p_{n+1}}{p_n},
 \end{align}
 in which $p_n$ is the posterior probability evaluated at the Maximum A Posteriori
 Estimator (MAP) obtained using $n$ CBVs.
@@ -245,7 +328,7 @@ density over the CBVs coefficients.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=.5]{figs/cbv-bayes-factor.pdf}
+    \plotone{figs/cbv-bayes-factor.pdf}
     \caption{Bayes factors as a function of the number of CBVs for \texttt{EPIC 201543306}}
     \label{fig:cbv-grid-search}
 \end{figure}
@@ -253,7 +336,7 @@ density over the CBVs coefficients.
 
 \subsection{Point spread function photometry}
 
-lightkurve contains routines to perform PSF photometry in TPFs
+\lightkurve ~contains routines to perform PSF photometry in TPFs
 which are implemented in the \texttt{psf} module.
 
 Briefly, the PSF photometry problem that lightkurve solves can be formulated as
@@ -263,6 +346,20 @@ find the best parameter vector
 $\bm{\theta}^{*} = (\theta_1^{*}, \theta_2^{*}, ..., \theta_m^{*})$
 that minimizes some cost (or loss) function $R(\lambda(\bm{\theta}), \bm{y})$
 of assigning $\bm{\theta} = \bm{\theta}^{*}$.
+
+From a probabilistic point of view, one is often interested in minimizing the
+expected cost with respect to some probability distribution assigned to the data
+$\bm{y}$ and to the parameter vector $\bm{\theta}$, from which the cost function
+$R$ naturally arises. The default assumption on the data is that it follows
+a Poisson probability distribution, whereas the probability distribution on the
+parameter vector has to be assigned by the user using the $\texttt{prior}$
+argument. Using a uniform prior for $\bm{\theta}$, the MAP estimator can be written
+as
+\begin{align}
+    \bm{\theta}^{*}(\bm{y}) = \argmin_{\bm{\theta} \in \Lambda} \sum_{i=1}^{n}
+    \left(\sum_{j=1}^{m}\lambda_i(\bm{\theta}_j) - y_i\log\sum_{j=1}^{m}\lambda_i(\bm{\theta}_j)\right),
+\end{align}
+in which $\Lambda$ is the support of $\bm{\theta}$.
 
 The example below illustrates PSF photometry on the target \texttt{EPIC 246199087}
 (Trappist-1):
@@ -282,31 +379,51 @@ The example below illustrates PSF photometry on the target \texttt{EPIC 24619908
 The photometric results are stored in a $c \times 4$ matrix, where $c$ is the
 number of frames (cadences).
 
-From a probabilistic point of view, one is often interested in minimizing the
-expected cost with respect to some probability distribution assigned to the data
-$\bm{y}$ and to the parameter vector $\bm{\theta}$, from which the cost function
-$R$ naturally arises. The default assumption on the data is that it follows
-a Poisson probability distribution; whereas the probability distribution on the
-parameter vector has to be assigned by the user using the $\texttt{prior}$
-argument.
-
 Another important aspect is the PSF model...
 
 \subsection{Motion-dependent Correlated Noise}
-
-Spacecraft-induced correlated noise remains one of the greatest hurdles to analyzing K2 lightcurves.  Many algorithms have been developed to mitigate motion-dependent artifacts \cite{vanderburg14}.  Local and global Gaussian Process covariance kernels...
-
 \label{subsection:motion}
 
-\section{Acknowledgments}
-lightkurve is build on top of numerous packages that constitute the Scientific Python
-stack, more precisely, \texttt{numpy}, \texttt{scipy}, \texttt{matplotlib}, and
-\texttt{astropy}.
+Spacecraft-induced correlated noise remains one of the greatest hurdles to
+analyzing K2 lightcurves. Many algorithms have been developed to mitigate
+motion-dependent artifacts~\cite{vanderburg14}.
 
-\clearpage
 
-%% MGS 2/2018: Uncomment below to enable references.
-%\bibliographystyle{aasjournal}
-%\bibliography{ms}
+%% If you wish to include an acknowledgments section in your paper,
+%% separate it off from the body of the text using the \acknowledgments
+%% command.
+\acknowledgments
+
+We thank all the people that have made this AASTeX what it is today.  This
+includes but not limited to Bob Hanisch, Chris Biemesderfer, Lee Brotzman,
+Pierre Landau, Arthur Ogawa, Maxim Markevitch, Alexey Vikhlinin and Amy
+Hendrickson. Also special thanks to David Hogg and Daniel Foreman-Mackey
+for the new "modern" style design. Considerable help was provided via bug
+reports and hacks from numerous people including Patricio Cubillos, Alex
+Drlica-Wagner, Sean Lake, Michele Bannister, Peter Williams, and Jonathan
+Gagne.
+
+\vspace{5mm}
+\facilities{HST(STIS), Swift(XRT and UVOT), AAVSO, CTIO:1.3m,
+CTIO:1.5m,CXO}
+
+
+\software{astropy}
+
+%% Appendix material should be preceded with a single \appendix command.
+%% There should be a \section command for each appendix. Mark appendix
+%% subsections with the same markup you use in the main body of the paper.
+
+%% Each Appendix (indicated with \section) will be lettered A, B, C, etc.
+%% The equation counter will reset when it encounters the \appendix
+%% command and will number appendix equations (A1), (A2), etc. The
+%% Figure and Table counter will not reset.
+
+\appendix
+
+\section{Appendix information}
+
+\bibliographystyle{aasjournals}
+\bibliography{ms}
 
 \end{document}
