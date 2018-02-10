@@ -336,20 +336,20 @@ density over the CBVs coefficients.
 \lightkurve ~contains routines to perform PSF photometry in TPFs
 which are implemented in the \texttt{psf} module.
 
-Briefly, the PSF photometry problem that lightkurve solves can be formulated as
+Briefly, the PSF photometry problem that \lightkurve~solves can be formulated as
 follows. Given an image $\bm{y}$, with $n$ pixels and $m$ stars, and a PSF model
 $\lambda(\bm{\theta}) = \sum_{j=1}^{m} \lambda({\theta}_j)$,
-find the best parameter vector
-$\bm{\theta}^{\star} = (\theta_1^{\star}, \theta_2^{\star}, ..., \theta_m^{\star})$
+find the best parameter vector (which encodes fluxes and center positions for $m$
+stars) $\bm{\theta}^{\star} = (\theta_1^{\star}, \theta_2^{\star}, ..., \theta_m^{\star})$
 that minimizes some cost (or loss) function $R(\lambda(\bm{\theta}), \bm{y})$
 of assigning $\bm{\theta} = \bm{\theta}^{\star}$.
 
 From a probabilistic point of view, one is often interested in minimizing the
 expected cost with respect to some probability distribution assigned to the data
 $\bm{y}$ and to the parameter vector $\bm{\theta}$, from which the cost function
-$R$ naturally arises. The default assumption on the data is that it follows
-a Poisson probability distribution, whereas the probability distribution on the
-parameter vector has to be assigned by the user using the $\texttt{prior}$
+$R$ naturally arises. The default assumption, made in \lightkurve,~on the data is
+that it follows a Poisson probability distribution, whereas the probability
+distribution on the parameter vector has to be assigned by the user using the $\texttt{prior}$
 argument. Using a uniform prior for $\bm{\theta}$, the MAP estimator can be written
 as
 \begin{align}
@@ -383,9 +383,21 @@ Another important aspect is the PSF model...
 
 Spacecraft-induced correlated noise remains one of the greatest hurdles to
 analyzing K2 lightcurves. Many algorithms have been developed to mitigate
-motion-dependent artifacts~\cite{vanderburg14}. In \lightkurve~we implement
-an algorithm based off of~\cite{vanderburg14}
+motion-dependent artifacts~\cite{vanderburg14}[CITE K2SC and EVEREST].
+In \lightkurve, we implement an algorithm based off of the self-flat-field
+(SFF) presented in~\cite{vanderburg14}.
 
+Basically, SFF works by decorrelating the simple aperture flux
+against the information on the spacecraft motion, obtained by computing the
+arclength using the centroids of the target.
+
+\begin{verbatim}
+from lightkurve import KeplerTargetPixelFile
+tpf = KeplerTargetPixelFile("ktwo248667471-c14_lpd-targ.fits.gz")
+lc = tpf.to_lightcurve()
+centroids = tpf.get_centroids()
+lcc = lc.correct(centroids[0], centroids[1])
+\end{verbatim}
 
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments
