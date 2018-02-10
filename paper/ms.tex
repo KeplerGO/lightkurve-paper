@@ -51,7 +51,7 @@
 
 \begin{document}
 
-\title{An Example Article using \aastex v6.2\footnote{Released on January, 8th, 2018}}
+\title{\lightkurve: a Python open source package for NASA's Kepler, K2, and TESS data analysis}
 
 \correspondingauthor{Geert Barentsen}
 \email{hello@geert.io}
@@ -59,7 +59,7 @@
 \author{\lightkurve~contributors}
 \affil{The galatic startup}
 
-\author{José Vinícius de Miranda Cardoso}
+\author{Jos\'e Vin\'icius de Miranda Cardoso}
 \affiliation{Bay Area Environmental Research Institute \\
 Petaluma \\
 California, USA}
@@ -195,8 +195,8 @@ In an image with $n$ pixels, where the flux and the center positions of the
 $i$-th pixel are denoted as $f_i$ and $(x_i, y_i)$, respectively, the centroids
 may be expressed as
 \begin{align}
-    x^{\star} = \dfrac{\sum_{i=1}^{n} f_i x_i}{\sum_{i=1}^{n}f_i} \\
-    y^{\star} = \dfrac{\sum_{i=1}^{n} f_i y_i}{\sum_{i=1}^{n}f_i}.
+    x^{\star} = \dfrac{\sum_{i=1}^{n} f_i x_i}{\sum_{i=1}^{n}f_i},
+    ~~y^{\star} = \dfrac{\sum_{i=1}^{n} f_i y_i}{\sum_{i=1}^{n}f_i}.
 \end{align}
 
 In \texttt{lightkurve}, the centroids in every cadence can be computed as
