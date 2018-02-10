@@ -233,10 +233,10 @@ cost function can be expressed as follows
 \end{align}
 in which $f_{SAP}$ is the SAP flux and $v_j$ is the $j$-th CBV.
 
-The maximum likelihood estimator for $\bm{\theta}$, $\bm{\theta^{*}}$ can be
+The maximum likelihood estimator for $\bm{\theta}$, $\bm{\theta^{\star}}$ can be
 expressed as
 \begin{align}
-    \bm{\theta}^{*} = \argmin_{\bm{\theta} \in \Theta} \mathcal{C}(\bm{\theta}, f_{SAP}).
+    \bm{\theta}^{\star} = \argmin_{\bm{\theta} \in \Theta} \mathcal{C}(\bm{\theta}, f_{SAP}).
 \end{align}
 
 However, Equation~(\ref{eq:chi-square}) is sensitive to outliers~\cite{ivezi2014},
@@ -251,7 +251,7 @@ function
 
 Then, the CBV-corrected flux can be computed as
 \begin{equation}
-    f_{CBV} = f_{SAP} - \sum_{j=1}^{n}\theta^{*}_j v_{j}(t).
+    f_{CBV} = f_{SAP} - \sum_{j=1}^{n}\theta^{\star}_j v_{j}(t).
 \end{equation}
 
 An example of SAP flux correction for target \texttt{KOI 8462852}
@@ -315,10 +315,10 @@ remove the astrophysical signal of interest [add reference].
 An objective way of selecting the number of CBVs is to use Bayes' factors
 [add reference]. In the Bayes' factor setting, the selected number of
 CBVs is the one that provide the least gain in posterior probability, i.e.,
-for all ordered pairs of CBVs, the Bayes factor selects $n^{*}$ number of CBVs
+for all ordered pairs of CBVs, the Bayes factor selects $n^{\star}$ number of CBVs
 as follows
 \begin{align}
-    n^{*} = \argmin_{n} \dfrac{p_{n+1}}{p_n},
+    n^{\star} = \argmin_{n} \dfrac{p_{n+1}}{p_n},
 \end{align}
 in which $p_n$ is the posterior probability evaluated at the Maximum A Posteriori
 Estimator (MAP) obtained using $n$ CBVs.
@@ -343,9 +343,9 @@ Briefly, the PSF photometry problem that lightkurve solves can be formulated as
 follows. Given an image $\bm{y}$, with $n$ pixels and $m$ stars, and a PSF model
 $\lambda(\bm{\theta}) = \sum_{j=1}^{m} \lambda({\theta}_j)$,
 find the best parameter vector
-$\bm{\theta}^{*} = (\theta_1^{*}, \theta_2^{*}, ..., \theta_m^{*})$
+$\bm{\theta}^{\star} = (\theta_1^{\star}, \theta_2^{\star}, ..., \theta_m^{\star})$
 that minimizes some cost (or loss) function $R(\lambda(\bm{\theta}), \bm{y})$
-of assigning $\bm{\theta} = \bm{\theta}^{*}$.
+of assigning $\bm{\theta} = \bm{\theta}^{\star}$.
 
 From a probabilistic point of view, one is often interested in minimizing the
 expected cost with respect to some probability distribution assigned to the data
@@ -356,7 +356,7 @@ parameter vector has to be assigned by the user using the $\texttt{prior}$
 argument. Using a uniform prior for $\bm{\theta}$, the MAP estimator can be written
 as
 \begin{align}
-    \bm{\theta}^{*}(\bm{y}) = \argmin_{\bm{\theta} \in \Lambda} \sum_{i=1}^{n}
+    \bm{\theta}^{\star}(\bm{y}) = \argmin_{\bm{\theta} \in \Lambda} \sum_{i=1}^{n}
     \left(\sum_{j=1}^{m}\lambda_i(\bm{\theta}_j) - y_i\log\sum_{j=1}^{m}\lambda_i(\bm{\theta}_j)\right),
 \end{align}
 in which $\Lambda$ is the support of $\bm{\theta}$.
