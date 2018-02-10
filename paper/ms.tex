@@ -56,13 +56,13 @@
 \correspondingauthor{Geert Barentsen}
 \email{hello@geert.io}
 
-\author{\lightkurve contributors}
+\author{\lightkurve~contributors}
 \affil{The galatic startup}
 
-\author{August Muench}
-\affiliation{American Astronomical Society \\
-2000 Florida Ave., NW, Suite 300 \\
-Washington, DC 20009-1231, USA}
+\author{José Vinícius de Miranda Cardoso}
+\affiliation{Bay Area Environmental Research Institute \\
+Petaluma \\
+California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
@@ -72,7 +72,7 @@ Washington, DC 20009-1231, USA}
 
 \end{abstract}
 
-%% Keywords should appear after the \end{abstract} command. 
+%% Keywords should appear after the \end{abstract} command.
 %% See the online documentation for the full list of available subject
 %% keywords and the rules for their use.
 \keywords{editorials, notices ---
@@ -84,7 +84,7 @@ series data for a wide range of stellar types.
 
 \section{Lightcurve Basics}
 
-\subsection{The \LightCurve~and \KeplerLightCurve~class}
+\subsection{The \LightCurve~and \KeplerLightCurve~classes}
         The \LightCurve~class is a simple cointainer to store \numpy~arrays
         (hereafter, arrays) related to flux time-domain measurements.
 
@@ -95,9 +95,9 @@ series data for a wide range of stellar types.
         \begin{table}[!htb]
             \centering
             \caption{A subset of methods provided by the \LightCurve~class}
-            \begin{tabular}{cp{5cm}}
+            \begin{tabular}{cp{6.5cm}}
                 \hline
-                \textbf{Method signature} & \textbf{Short description} \\
+                \textbf{Method} & \textbf{Short description} \\
                 \hline
                 \texttt{stitch} & appends the attributes \texttt{flux},
                 \texttt{time}, and \texttt{flux\_err} of other given
@@ -115,14 +115,13 @@ series data for a wide range of stellar types.
             \label{tab:methods}
         \end{table}
 
-        A \LightCurve
-        object can be instantiated by passing a \texttt{time} array, a
-        \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
+        A \LightCurve~object can be instantiated by passing a \texttt{time}
+        array, a \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
         which accounts for uncertainties in the \texttt{flux} measurements, i.e.,
-        \begin{verbatim}
-        >>> from lightkurve import LightCurve
-        >>> lc = LightCurve(time, flux)
-        \end{verbatim}
+\begin{verbatim}
+>>> from lightkurve import LightCurve
+>>> lc = LightCurve(time, flux)
+\end{verbatim}
 
        The \KeplerLightCurve class extends \LightCurve by
        adding attributes to store metadata information such as channel number,
@@ -149,9 +148,8 @@ series data for a wide range of stellar types.
         Therefore, one can, for example, perform the following series of operations
         in order to fold a lightcurve from the MAST archive
 \begin{verbatim}
->>> lc_file = KeplerLightCurveFile("https://archive.stsci.edu/missions/kepler/"
-... "lightcurves/0119/011904151/kplr011904151-2009350155506_llc.fits")
->>> klc = lc_file.get_lightcurve("PDCSAP_FLUX").fold(period=0.837495)
+>>> lc_file = KeplerLightCurveFile("kplr011904151-2009350155506_llc.fits")
+>>> klc = lc_file.PDCSAP_FLUX.fold(period=0.837495)
 >>> klc.plot()
 \end{verbatim}
 
@@ -178,7 +176,7 @@ series data for a wide range of stellar types.
 \begin{verbatim}
 >>> import numpy as np
 >>> from lightkurve import KeplerTargetPixelFile
->>> tpf = KeplerTargetPixelFile('kplr008462852-2011073133259_lpd-targ.fits.gz')
+>>> tpf = KeplerTargetPixelFile("kplr008462852-2011073133259_lpd-targ.fits")
 >>> tpf.plot()
 >>> tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
 \end{verbatim}
@@ -258,8 +256,7 @@ An example of SAP flux correction for target \texttt{KOI 8462852}
 (Tabby's star) can be written as follows
 \begin{verbatim}
 >>> from lightkurve.lightcurve import KeplerCBVCorrector
->>> cbv = KeplerCBVCorrector("https://archive.stsci.edu/missions/kepler/lightcurves/"
-          ...                "0084/008462852/kplr008462852-2011073133259_llc.fits")
+>>> cbv = KeplerCBVCorrector("kplr008462852-2011073133259_llc.fits")
 >>> cbv_lc = cbv.correct(cbvs=[1,2])
 \end{verbatim}
 
@@ -386,7 +383,8 @@ Another important aspect is the PSF model...
 
 Spacecraft-induced correlated noise remains one of the greatest hurdles to
 analyzing K2 lightcurves. Many algorithms have been developed to mitigate
-motion-dependent artifacts~\cite{vanderburg14}.
+motion-dependent artifacts~\cite{vanderburg14}. In \lightkurve~we implement
+an algorithm based off of~\cite{vanderburg14}
 
 
 %% If you wish to include an acknowledgments section in your paper,
@@ -394,19 +392,10 @@ motion-dependent artifacts~\cite{vanderburg14}.
 %% command.
 \acknowledgments
 
-We thank all the people that have made this AASTeX what it is today.  This
-includes but not limited to Bob Hanisch, Chris Biemesderfer, Lee Brotzman,
-Pierre Landau, Arthur Ogawa, Maxim Markevitch, Alexey Vikhlinin and Amy
-Hendrickson. Also special thanks to David Hogg and Daniel Foreman-Mackey
-for the new "modern" style design. Considerable help was provided via bug
-reports and hacks from numerous people including Patricio Cubillos, Alex
-Drlica-Wagner, Sean Lake, Michele Bannister, Peter Williams, and Jonathan
-Gagne.
+We would like to express our gratitude...
 
 \vspace{5mm}
-\facilities{HST(STIS), Swift(XRT and UVOT), AAVSO, CTIO:1.3m,
-CTIO:1.5m,CXO}
-
+\facilities{Kepler}
 
 \software{astropy}
 
@@ -423,7 +412,7 @@ CTIO:1.5m,CXO}
 
 \section{Appendix information}
 
-\bibliographystyle{aasjournals}
+\bibliographystyle{aasjournal}
 \bibliography{ms}
 
 \end{document}
