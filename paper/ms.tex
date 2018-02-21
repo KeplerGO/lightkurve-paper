@@ -27,6 +27,7 @@
 \usepackage{amsmath, amssymb, mathtools, bm}
 
 \newcommand{\KTWO}{$\mathcal{K}\mathit{2}$}
+\newcommand{\tess}{TESS}
 \newcommand{\lightkurve}{\texttt{lightkurve}}
 \newcommand{\LightCurve}{\texttt{LightCurve}}
 \newcommand{\KeplerLightCurve}{\texttt{KeplerLightCurve}}
@@ -51,7 +52,7 @@
 
 \begin{document}
 
-\title{An Example Article using \aastex v6.2\footnote{Released on January, 8th, 2018}}
+\title{\lightkurve: a Python package for Kepler \& TESS time series data analysis}
 
 \correspondingauthor{Geert Barentsen}
 \email{hello@geert.io}
@@ -79,8 +80,71 @@ California, USA}
 miscellaneous --- catalogs --- surveys}
 
 \section{Introduction} \label{sec:intro}
-NASA's Kepler and \KTWO~missions have been delivering high-precision time
+NASA's Kepler, \KTWO, and \tess~missions have been delivering high-precision time
 series data for a wide range of stellar types.
+Cite Borucki et al for Kepler, Howell et al for K2, XXX for TESS.
+
+While these missions have powerful pipelines which deliver high-precision
+lightcurves for many objects (citation), analyses tailored for specific
+science cases can often optimize the analysis.
+For example:
+1) a bigger aperture mask has been shown to yield additional planets in Kepler-XXX (cite Isabel),
+2) custom tailored PSF photometry has been shown to disentangle the signals of stars in
+dense clusters (cite Libralato et al),
+3) the official pipelines tend to be optimized for signals at the duration of typical
+planet transits (6 hours) and are not optimized for long-term trends such as those
+seen in AGN (cite Krista Lynn Smith).
+
+Explain PyKE exists and how it differs.
+In this paper, we present a new Python package which makes the custom analysis
+of target easy.  Based on AstroPy (cite Astropy).
+
+Explain the structure of the paper and announce that we will show examples
+of the 3 key features: manipulating lightcurves, creating lightcurves,
+and removing systematics from lightcurves.
+
+\section{Package overview}
+
+Maybe include a class diagram here, or a table of the modules or classes.
+
+Maybe include a table or graph listing the key functions of the key classes,
+e.g.
+Lightcurve: cdpp, fold, stitch, plot
+TargetPixelFile: tolightcurve, plot
+
+
+\section{Examples of key features}
+
+\subsection{Working with lightcurves}
+
+flatten, fold, finding planets, from archive...
+
+\subsection{Making your own lightcurves from target pixel files}
+
+explain TPFs, aperture photometry, and PSF photometry
+
+\subsection{Removing systematics from lightcurves}
+
+We only intend to provide simple tools.
+Ideally, systematics are removed simultaneously with fitting a model (e.g. Montet and DFM 2015).
+
+\section{Future work}
+
+Explain PSF photometry needs users and data-driven model capability.
+
+We do not intend to implement transit fitting, more advanced detrending, etc.
+Instead, lightkurve intends to provide the building blocks needed to build
+or interact with such packages.
+
+We intend to add many tutorials.
+
+Explain how people can contribute.
+
+
+\section{Conclusions}
+
+we will discuss => we have discussed
+
 
 \section{Lightcurve Basics}
 
