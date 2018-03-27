@@ -25,6 +25,7 @@
 %% using aastex version 6.2
 \documentclass[twocolumn]{aastex62}
 \usepackage{amsmath, amssymb, mathtools, bm}
+\usepackage{cite}
 
 \newcommand{\KTWO}{$\mathcal{K}\mathit{2}$}
 \newcommand{\tess}{TESS}
@@ -396,6 +397,16 @@ density over the CBVs coefficients.
 
 
 \subsection{Point spread function photometry}
+
+Point Spread Function (PSF) photometry is the de facto technique to
+process crowded-field images~\cite{stetson1987, heasley1999}. In context of Kepler
+and K2 missions, Libralato \textit{et al}~\cite{libralato2016} have shown...
+
+The underlying principle of PSF photometry consists in modelling a given crowded
+image as a linear combination of individual PSFs and possibly a background model.
+On the PSF model itself, it is commonly assumed that the flux
+at an arbitrary pixel position increases linearly with the integrated
+flux~\cite{stetson1987, heasley1999}.
 
 \lightkurve ~contains routines to perform PSF photometry in TPFs
 which are implemented in the \texttt{psf} module.
