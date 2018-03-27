@@ -6,7 +6,6 @@ build-paper
 *.blg
 *.dvi
 *.ps
-ms.pdf
 .*.swp
 .ipynb_checkpoints/
 .DS_Store
