@@ -25,16 +25,19 @@
 %% using aastex version 6.2
 \documentclass[twocolumn]{aastex62}
 \usepackage{amsmath, amssymb, mathtools, bm}
-
+\usepackage{color}
 
 \newcommand{\ktwo}{{\it K$\mathit{2}$}}
 \newcommand{\tess}{{\it TESS}}
 \newcommand{\kepler}{{\it Kepler}}
 \newcommand{\lightkurve}{\texttt{lightkurve}}
-\newcommand{\LightCurve}{\texttt{LightCurve}} d
+\newcommand{\LightCurve}{\texttt{LightCurve}}
 \newcommand{\KeplerLightCurve}{\texttt{KeplerLightCurve}}
 \newcommand{\numpy}{\texttt{numpy}}
 \newcommand{\code}{\texttt}
+\newcommand{\clh}[1]{\textcolor{red}{ \textbf{***CLH: #1 ***}}}
+\newcommand{\ze}[1]{\textcolor{blue}{ \textbf{***CLH: #1 ***}}}
+
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 
@@ -73,9 +76,25 @@ California, USA}
 
   \begin{itemize}
   \item{We present \lightkurve, an open source package for analysis of flux time series using Python.}
-  \item{\lightkurve is a general purpose tool.}
-  \item{However, it is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions.}
+  \item{It is a multipurpose, general tool to make producing time-series photometry from raw pixel data easier and more reproducible between different teams.}
+  \item{\lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions.}
+  \item{Using these tools it is simple to create corrected time-series photometry from raw pixel data from any of these missions.}
+  \item{Easy to interact with raw data products and produce fantastic light curves}
+  \item{Open source, modable}
+  \item{Supremely reproducible.}
+  \item{Go from raw data to planet in 5 lines of code.}
   \end{itemize}
+
+\clh{
+What plots do we want? These should be our KILLER selling points. All graphs should be easy to understand as standalone figures. These are what will grab people! But let's keep it short and sweet.
+  \begin{itemize}
+  \item{Beautiful TPF and masking}
+  \item{Beautiful flattening?}
+  \item{Beautiful motion detrending}
+  \item{Beautiful CBV correction}
+  \item{Beautiful planet finding}
+  \end{itemize}
+}
 
 \end{abstract}
 
@@ -89,6 +108,14 @@ California, USA}
 \item{This ranges from 30 year long time series of variable stars\cite{citationneeded} to short time-series of hours for X-Ray objects \cite{citationneeded}}
 \item{In particular, NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}.}
 \item{In the near future the \tess mission will delivering high-precision time series data for 90\% of the sky, providing light curves for X millions of object \cite{citationneeded}.}
+\item{\clh{What are the challenges we face in time-series astronomy?}}
+\end{itemize}
+
+\paragraph{What tools are currently available?}
+\begin{itemize}
+\item PyKE
+\item \clh{There must be others?}
+\item However, no one package provide a simple, open source framework for manipulating time-series data that is general purpose.
 \end{itemize}
 
 \paragraph{What are we presenting}
@@ -96,15 +123,17 @@ California, USA}
 \item{We present \lightkurve as a general tool to use almost all time-series photometry, with a particular focus on \kepler, \ktwo~ and \tess.}
 \item While these missions have powerful pipelines which deliver high-precision light curves for many objects (citation), \lightkurve allows bespoke analyses tailored for specific science cases.
 \item These might include custom aperture photometry, PSF photometry in crowded field and studies of long period transient events such as supernovae and AGN.
+\item \lightkurve~ is not designed to replace NASA pipelines, but to allow users more flexibility when producing time-series for their unique science cases.
 \item{We have designed \lightkurve as a tool process this vast wealth of data easily and intuitively with many features and tools to remove reduce the overhead in using this data.}
+\item By using these tools users have the advantage of easy reproducibility. By sharing the same tools and the same short scripts for producing their light curve products different teams will be more able to compare results.
 \end{itemize}
-
 
 \paragraph{How do you use lightkurve}
 \begin{itemize}
 \item designed to be flexible
 \item nuts and bolts
 \item open source
+\item easy data fetching
 \item easy api
 \end{itemize}
 
@@ -115,18 +144,11 @@ California, USA}
 \item Together these two sides can be combined to convert raw data from \kepler, \ktwo~ and \tess~ to cleaned light curves of exoplanet candidates, supernovae and extra-galactic objects.
 \end{itemize}
 
-\paragraph{What about pyke}
-\begin{itemize}
-\item previously there was pyke, don't spend too long on this
-\item pyke is still available
-\item \lightkurve uses only python
-\item  new Python package which makes the custom analysis of target easy.  Based on AstroPy (cite Astropy).
-\end{itemize}
-
 \paragraph{Future resources?}
 \begin{itemize}
 \item This is \lightkurve 1.0
 \item Anticipate adding new features
+\item Easily extendible for users to add in new features
 \end{itemize}
 
 \paragraph{What's in this paper?}
@@ -142,12 +164,23 @@ and removing systematics from lightcurves.
 
 \section{Package overview}
 
+
+\clh{This needs to VERY clearly show the difference between a TPF, LC and LCF.}
 Maybe include a class diagram here, or a table of the modules or classes.
 
 Maybe include a table or graph listing the key functions of the key classes,
 e.g.
 Lightcurve: cdpp, fold, stitch, plot
 TargetPixelFile: tolightcurve, plot
+
+%This might belong somewhere else, but it's slowing down our introduction
+\subsection{PyKE Tools}
+\begin{itemize}
+\item previously there was pyke, don't spend too long on this
+\item pyke is still available
+\item \lightkurve uses only python
+\item  new Python package which makes the custom analysis of target easy.  Based on AstroPy (cite Astropy).
+\end{itemize}
 
 
 \section{Examples of key features}

@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex ms"] 1522716648 "ms.aux" "ms.bbl" "ms" 1522716649
+["bibtex ms"] 1522719110 "ms.aux" "ms.bbl" "ms" 1522719111
   "./aasjournal.bst" 1522431090 37514 eb8cd7d6002e174d031081537b4ccfa9 ""
-  "ms.aux" 1522716649 5059 dc9508297f075605f5009e008551544d ""
+  "ms.aux" 1522719111 5172 3d47d57601b6000884147dbc2e18c286 ""
   "ms.bib" 1522431090 4588 c05d50922fd4949c401667d30a20d46c ""
   (generated)
-  "ms.bbl"
   "ms.blg"
-["pdflatex"] 1522716648 "ms.tex" "ms.pdf" "ms" 1522716649
+  "ms.bbl"
+["pdflatex"] 1522719110 "ms.tex" "ms.pdf" "ms" 1522719111
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/adobe/helvetic/phvr.tfm" 1480098688 2504 ba6584b616b92101c768b6c4ffb32dd0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -64,6 +64,7 @@
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/latex-fonts/lasy8.tfm" 1480098711 520 7bb3abb160b19e0ed6ac404bb59052b7 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/latex-fonts/lasy9.tfm" 1480098711 520 1cc7cc05f4d7bae5c23bf7516f88fa52 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/latex-fonts/lasyb10.tfm" 1480098711 520 4bf1455197d190cb95c579bde4c2f0ba ""
+  "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb" 1480098733 34793 87a84b12f86dfd35a1cf1bb142b75602 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1480098733 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb" 1480098733 32166 b0c356b15f19587482a9217ce1d8fa67 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1480098733 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
@@ -157,10 +158,10 @@
   "figs/fold-lc.pdf" 1522431090 1045272 07ef44e10561c31c753faaaf97026331 ""
   "figs/tpf-plot-aperture.pdf" 1522431090 183633 157cf8ba1ce4f4611c6f646e482cc754 ""
   "figs/tpf-plot.pdf" 1522431090 183230 dfbb4ac5b43847caca6cb3e1804efec8 ""
-  "ms.aux" 1522716649 5059 dc9508297f075605f5009e008551544d ""
-  "ms.bbl" 1522716648 1711 43b4b47b67e96acf0a9cbefd0b75e9bb "bibtex ms"
-  "ms.tex" 1522716645 21978 827df7d19fa2d3c51b688045fe953cc8 ""
+  "ms.aux" 1522719111 5172 3d47d57601b6000884147dbc2e18c286 ""
+  "ms.bbl" 1522719110 1711 43b4b47b67e96acf0a9cbefd0b75e9bb "bibtex ms"
+  "ms.tex" 1522719108 23471 8599c1c18b843cef87a06bae71a336a7 ""
   (generated)
-  "ms.pdf"
   "ms.aux"
   "ms.log"
+  "ms.pdf"
