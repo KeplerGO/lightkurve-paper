@@ -6,18 +6,18 @@
 %% This is a sample manuscript marked up using the
 %% AASTeX v6.2 LaTeX 2e macros.
 %%
-%% AASTeX is now based on Alexey Vikhlinin's emulateapj.cls 
+%% AASTeX is now based on Alexey Vikhlinin's emulateapj.cls
 %% (Copyright 2000-2015).  See the classfile for details.
 
 %% AASTeX requires revtex4-1.cls (http://publish.aps.org/revtex4/) and
 %% other external packages (latexsym, graphicx, amssymb, longtable, and epsf).
-%% All of these external packages should already be present in the modern TeX 
+%% All of these external packages should already be present in the modern TeX
 %% distributions.  If not they can also be obtained at www.ctan.org.
 
 %% The first piece of markup in an AASTeX v6.x document is the \documentclass
-%% command. LaTeX will ignore any data that comes before this command. The 
+%% command. LaTeX will ignore any data that comes before this command. The
 %% documentclass can take an optional argument to modify the output style.
-%% The command below calls the preprint style  which will produce a tightly 
+%% The command below calls the preprint style  which will produce a tightly
 %% typeset, one-column, single-spaced document.  It is the default and thus
 %% does not need to be explicitly stated.
 %%
@@ -25,14 +25,16 @@
 %% using aastex version 6.2
 \documentclass[twocolumn]{aastex62}
 \usepackage{amsmath, amssymb, mathtools, bm}
-\usepackage{cite}
 
-\newcommand{\KTWO}{$\mathcal{K}\mathit{2}$}
-\newcommand{\tess}{TESS}
+
+\newcommand{\ktwo}{{\it K$\mathit{2}$}}
+\newcommand{\tess}{{\it TESS}}
+\newcommand{\kepler}{{\it Kepler}}
 \newcommand{\lightkurve}{\texttt{lightkurve}}
-\newcommand{\LightCurve}{\texttt{LightCurve}}
+\newcommand{\LightCurve}{\texttt{LightCurve}} d
 \newcommand{\KeplerLightCurve}{\texttt{KeplerLightCurve}}
 \newcommand{\numpy}{\texttt{numpy}}
+\newcommand{\code}{\texttt}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 
@@ -53,7 +55,7 @@
 
 \begin{document}
 
-\title{\lightkurve: a Python open source package for NASA's Kepler, K2, and TESS data analysis}
+\title{\lightkurve: an open source Python package for NASA's \kepler, \ktwo~ and \tess~ data analysis}
 
 \correspondingauthor{Geert Barentsen}
 \email{hello@geert.io}
@@ -69,40 +71,74 @@ California, USA}
 
 \begin{abstract}
 
-    This paper presents an open source package for NASA's Kepler, \KTWO, and
-    TESS.
+  \begin{itemize}
+  \item{We present \lightkurve, an open source package for analysis of flux time series using Python.}
+  \item{\lightkurve is a general purpose tool.}
+  \item{However, it is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions.}
+  \end{itemize}
 
 \end{abstract}
 
-%% Keywords should appear after the \end{abstract} command.
-%% See the online documentation for the full list of available subject
-%% keywords and the rules for their use.
-\keywords{editorials, notices ---
-miscellaneous --- catalogs --- surveys}
+\keywords{}
 
 \section{Introduction} \label{sec:intro}
-NASA's Kepler, \KTWO, and \tess~missions have been delivering high-precision time
-series data for a wide range of stellar types.
-Cite Borucki et al for Kepler, Howell et al for K2, XXX for TESS.
 
-While these missions have powerful pipelines which deliver high-precision
-lightcurves for many objects (citation), analyses tailored for specific
-science cases can often optimize the analysis.
-For example:
-1) a bigger aperture mask has been shown to yield additional planets in Kepler-XXX (cite Isabel),
-2) custom tailored PSF photometry has been shown to disentangle the signals of stars in
-dense clusters (cite Libralato et al),
-3) the official pipelines tend to be optimized for signals at the duration of typical
-planet transits (6 hours) and are not optimized for long-term trends such as those
-seen in AGN (cite Krista Lynn Smith).
+\paragraph{What is the background}
+\begin{itemize}
+\item{Time series photometry is available for a wide variety of astrophysical purposes and in a wide variety of formats.}
+\item{This ranges from 30 year long time series of variable stars\cite{citationneeded} to short time-series of hours for X-Ray objects \cite{citationneeded}}
+\item{In particular, NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}.}
+\item{In the near future the \tess mission will delivering high-precision time series data for 90\% of the sky, providing light curves for X millions of object \cite{citationneeded}.}
+\end{itemize}
 
-Explain PyKE exists and how it differs.
-In this paper, we present a new Python package which makes the custom analysis
-of target easy.  Based on AstroPy (cite Astropy).
+\paragraph{What are we presenting}
+\begin{itemize}
+\item{We present \lightkurve as a general tool to use almost all time-series photometry, with a particular focus on \kepler, \ktwo~ and \tess.}
+\item While these missions have powerful pipelines which deliver high-precision light curves for many objects (citation), \lightkurve allows bespoke analyses tailored for specific science cases.
+\item These might include custom aperture photometry, PSF photometry in crowded field and studies of long period transient events such as supernovae and AGN.
+\item{We have designed \lightkurve as a tool process this vast wealth of data easily and intuitively with many features and tools to remove reduce the overhead in using this data.}
+\end{itemize}
 
-Explain the structure of the paper and announce that we will show examples
-of the 3 key features: manipulating lightcurves, creating lightcurves,
+
+\paragraph{How do you use lightkurve}
+\begin{itemize}
+\item designed to be flexible
+\item nuts and bolts
+\item open source
+\item easy api
+\end{itemize}
+
+\paragraph{What is the selling point of lightkurve}
+\begin{itemize}
+\item There are two sides to the \lightkurve package. Firstly, \lightkurve can be used as an extraction package for creating time-series photometry from astronomical images such as \kepler Target Pixel Files (TPFs) or \tess Full Frame Images (FFIs). This includes simple aperture photometry, PSF photometry and centroiding.
+\item Secondly, \lightkurve can be used for analysis of time-series photometry. This includes motion detrending, CBV corrections, outlier rejection and period folding.
+\item Together these two sides can be combined to convert raw data from \kepler, \ktwo~ and \tess~ to cleaned light curves of exoplanet candidates, supernovae and extra-galactic objects.
+\end{itemize}
+
+\paragraph{What about pyke}
+\begin{itemize}
+\item previously there was pyke, don't spend too long on this
+\item pyke is still available
+\item \lightkurve uses only python
+\item  new Python package which makes the custom analysis of target easy.  Based on AstroPy (cite Astropy).
+\end{itemize}
+
+\paragraph{Future resources?}
+\begin{itemize}
+\item This is \lightkurve 1.0
+\item Anticipate adding new features
+\end{itemize}
+
+\paragraph{What's in this paper?}
+\begin{itemize}
+\item In this paper we discuss the basic components of \lightkurve
+\item We will show three key components of analysis with \lightkurve; manipulating lightcurves, creating lightcurves,
 and removing systematics from lightcurves.
+\item \lightkurve has a full compliment of tutorials
+\item More details can be found in our documentation at link.
+\end{itemize}
+
+
 
 \section{Package overview}
 
@@ -341,10 +377,10 @@ way to identify a reasonable number of CBVs is to perform a grid search
 as shown in Fig~(\ref{fig:cbv-grid-search}).
 
 In the same fashion, we can apply cotrending basis vector correction to
-\KTWO lightcurves.
+\ktwo lightcurves.
 
 Fig.~\ref{fig:cbv-correction-k2} shows the detrended lightcurve after estimating
-the first nine coefficients for CBV correciton on \KTWO target
+the first nine coefficients for CBV correciton on \ktwo target
  \texttt{EPIC 201543306}. The selection of the number of CBVs is set by inspecting the
 grid search curve can be set through model comparison heuristics like AIC, BIC,
 or cross-validation \cite{ivezi2014}.
