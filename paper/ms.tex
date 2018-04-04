@@ -37,6 +37,7 @@
 \newcommand{\code}{\texttt}
 \newcommand{\clh}[1]{\textcolor{red}{ \textbf{***CLH: #1 ***}}}
 \newcommand{\ze}[1]{\textcolor{blue}{ \textbf{***CLH: #1 ***}}}
+\newcommand{\gb}[1]{\textcolor{green}{ \textbf{***CLH: #1 ***}}}
 
 
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -73,8 +74,10 @@ California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
-
+\gb{Key messages are: WHY do users need to create their own products? (RB, asteroids, variable apertures, crowding etcetc). WHAT are we providing? (lightkurve, easy Kepler/K2/TESS access). HOW can they use it? (Beautiful examples)}
   \begin{itemize}
+  \item{Performing custom photometry allows users to mitigate...}
+  \item{However, with complex `big' data from \kepler and \ktwo...}
   \item{We present \lightkurve, an open source package for analysis of flux time series using Python.}
   \item{It is a multipurpose, general tool to make producing time-series photometry from raw pixel data easier and more reproducible between different teams.}
   \item{\lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions.}
@@ -83,6 +86,7 @@ California, USA}
   \item{Open source, modable}
   \item{Supremely reproducible.}
   \item{Go from raw data to planet in 5 lines of code.}
+  \item{Excellent learning tool}
   \end{itemize}
 
 \clh{
@@ -114,7 +118,7 @@ What plots do we want? These should be our KILLER selling points. All graphs sho
 \paragraph{What tools are currently available?}
 \begin{itemize}
 \item PyKE
-\item \clh{There must be others?}
+\item \clh{Geert says he can do this para}
 \item However, no one package provide a simple, open source framework for manipulating time-series data that is general purpose.
 \end{itemize}
 
@@ -142,6 +146,8 @@ What plots do we want? These should be our KILLER selling points. All graphs sho
 \item There are two sides to the \lightkurve package. Firstly, \lightkurve can be used as an extraction package for creating time-series photometry from astronomical images such as \kepler Target Pixel Files (TPFs) or \tess Full Frame Images (FFIs). This includes simple aperture photometry, PSF photometry and centroiding.
 \item Secondly, \lightkurve can be used for analysis of time-series photometry. This includes motion detrending, CBV corrections, outlier rejection and period folding.
 \item Together these two sides can be combined to convert raw data from \kepler, \ktwo~ and \tess~ to cleaned light curves of exoplanet candidates, supernovae and extra-galactic objects.
+\item One flexible system for all optical photometry
+\item Learning/teaching tool
 \end{itemize}
 
 \paragraph{Future resources?}
@@ -149,6 +155,7 @@ What plots do we want? These should be our KILLER selling points. All graphs sho
 \item This is \lightkurve 1.0
 \item Anticipate adding new features
 \item Easily extendible for users to add in new features
+\item{There are already tutorials, which will be expanded}
 \end{itemize}
 
 \paragraph{What's in this paper?}
@@ -165,58 +172,7 @@ and removing systematics from lightcurves.
 \section{Package overview}
 
 
-\clh{This needs to VERY clearly show the difference between a TPF, LC and LCF.}
-Maybe include a class diagram here, or a table of the modules or classes.
-
-Maybe include a table or graph listing the key functions of the key classes,
-e.g.
-Lightcurve: cdpp, fold, stitch, plot
-TargetPixelFile: tolightcurve, plot
-
-%This might belong somewhere else, but it's slowing down our introduction
-\subsection{PyKE Tools}
-\begin{itemize}
-\item previously there was pyke, don't spend too long on this
-\item pyke is still available
-\item \lightkurve uses only python
-\item  new Python package which makes the custom analysis of target easy.  Based on AstroPy (cite Astropy).
-\end{itemize}
-
-
-\section{Examples of key features}
-
-\subsection{Working with lightcurves}
-
-flatten, fold, finding planets, from archive...
-
-\subsection{Making your own lightcurves from target pixel files}
-
-explain TPFs, aperture photometry, and PSF photometry
-
-\subsection{Removing systematics from lightcurves}
-
-We only intend to provide simple tools.
-Ideally, systematics are removed simultaneously with fitting a model (e.g. Montet and DFM 2015).
-
-\section{Future work}
-
-Explain PSF photometry needs users and data-driven model capability.
-
-We do not intend to implement transit fitting, more advanced detrending, etc.
-Instead, lightkurve intends to provide the building blocks needed to build
-or interact with such packages.
-
-We intend to add many tutorials.
-
-Explain how people can contribute.
-
-
-\section{Conclusions}
-
-we will discuss => we have discussed
-
-
-\section{Lightcurve Basics}
+\clh{Ze can you do a beautiful diagram here?}
 
 \subsection{The \LightCurve~and \KeplerLightCurve~classes}
         The \LightCurve~class is a simple cointainer to store \numpy~arrays
@@ -225,29 +181,6 @@ we will discuss => we have discussed
         The \LightCurve~object provides methods to store, process, and
         convert lightcurves. Table~\ref{tab:methods} contains a description
         of a subset of the methods.
-
-        \begin{table}[!htb]
-            \centering
-            \caption{A subset of methods provided by the \LightCurve~class}
-            \begin{tabular}{cp{6.5cm}}
-                \hline
-                \textbf{Method} & \textbf{Short description} \\
-                \hline
-                \texttt{stitch} & appends the attributes \texttt{flux},
-                \texttt{time}, and \texttt{flux\_err} of other given
-                \texttt{LighCurve} objects.\\
-                \texttt{flatten} & applies a Savitzky-Golay filter to capture
-                low frequency flux variations which can be then removed in order
-                to aid transit detection algorithms.\\
-                \texttt{fold} & folds a lightcurve at a given period and phase.\\
-                \texttt{bin} &  bins a lightcurve using a block mean or median.\\
-                \texttt{cdpp} &  computes the Combined Differential Photometric
-                Precision (CDPP) metric, which is a proxy for the amount of
-                scatter in the lightcurve signal. \\
-                \texttt{plot} & displays a lightcurve.
-            \end{tabular}
-            \label{tab:methods}
-        \end{table}
 
         A \LightCurve~object can be instantiated by passing a \texttt{time}
         array, a \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
@@ -265,7 +198,7 @@ we will discuss => we have discussed
        correlated noise using the \texttt{correct} method which will be discussed in
        Section~\ref{subsection:motion}.
 
-   \subsection{The \texttt{KeplerLightCurveFile} class}
+\subsection{The \texttt{KeplerLightCurveFile} class}
         The \texttt{KeplerLightCurveFile} class defines a structure to deal
         with lightcurve files from both NASA's Kepler and K2 missions.
 
@@ -287,15 +220,7 @@ we will discuss => we have discussed
 >>> klc.plot()
 \end{verbatim}
 
-\begin{figure}
-\plotone{figs/fold-lc.pdf}
-\caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
-            transit signal of Kepler-10b.
-\label{fig:fold-method}}
-\end{figure}
-
-\section{Target Pixel File Basics}
-    \subsection{The \texttt{KeplerTargetPixelFile} class}
+\subsection{The \texttt{KeplerTargetPixelFile} class}
         A \texttt{KeplerTargetPixelFile} object can be instantiated
         by passing a \texttt{path} (URL or local) of a target pixel file.
         Optionally, the user can elect to throw away frames that contain
@@ -307,6 +232,7 @@ we will discuss => we have discussed
 
         For instance, the method \texttt{plot} can be used to visualize a
         given frame, which are depicted in Fig.~\ref{fig:plot-method}.
+
 \begin{verbatim}
 >>> import numpy as np
 >>> from lightkurve import KeplerTargetPixelFile
@@ -341,12 +267,200 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
 \end{verbatim}
 
 
-\section{Tools}
+\clh{This table I believe needs a little updating? There can also be a second table for TPF}
+\begin{table}[!htb]
+    \centering
+    \caption{A subset of methods provided by the \LightCurve~class}
+    \begin{tabular}{cp{6.5cm}}
+        \hline
+        \textbf{Method} & \textbf{Short description} \\
+        \hline
+        \texttt{stitch} & appends the attributes \texttt{flux},
+        \texttt{time}, and \texttt{flux\_err} of other given
+        \texttt{LighCurve} objects.\\
+        \texttt{flatten} & applies a Savitzky-Golay filter to capture
+        low frequency flux variations which can be then removed in order
+        to aid transit detection algorithms.\\
+        \texttt{fold} & folds a lightcurve at a given period and phase.\\
+        \texttt{bin} &  bins a lightcurve using a block mean or median.\\
+        \texttt{cdpp} &  computes the Combined Differential Photometric
+        Precision (CDPP) metric, which is a proxy for the amount of
+        scatter in the lightcurve signal. \\
+        \texttt{plot} & displays a lightcurve.
+    \end{tabular}
+    \label{tab:methods}
+\end{table}
 
-\subsection{Cotrending basis vectors}
+%This might belong somewhere else, but it's slowing down our introduction
+\subsection{PyKE Tools}
+\begin{itemize}
+\item previously there was pyke, don't spend too long on this
+\item pyke is still available
+\item \lightkurve uses only python
+\item  new Python package which makes the custom analysis of target easy.  Based on AstroPy (cite Astropy).
+\end{itemize}
 
-Cotrending basis vectors (CBVs) can remove global correlated
-systematics present in a given channel \cite{smith2012}.
+
+\section{Common Use Cases}
+
+\subsection{Creating Custom Light Curves}
+
+    \subsubsection{Simple Aperture Photometry (SAP)}
+    \begin{itemize}
+        \item What is SAP?
+        \item Why do SAP?s
+        \item How do you do SAP?
+    \end{itemize}
+
+    \subsubsection{Point Spread Function (PSF) Photometry}
+        %What is PSF?
+        Point Spread Function (PSF) photometry is the de facto technique to
+        process crowded-field images~\cite{stetson1987, heasley1999}. In context of Kepler
+        and K2 missions, Libralato \textit{et al}~\cite{libralato2016} have shown...
+
+        See a detailed explaination of PSF photometry in \ref{appendix:psf}
+        %Why do PSF?
+        The underlying principle of PSF photometry consists in modelling a given crowded
+        image as a linear combination of individual PSFs and possibly a background model.
+        On the PSF model itself, it is commonly assumed that the flux
+        at an arbitrary pixel position increases linearly with the integrated
+        flux~\cite{stetson1987, heasley1999}.
+
+        %How do you do PSF?
+        \lightkurve ~contains routines to perform PSF photometry in TPFs
+        which are implemented in the \texttt{psf} module.
+
+        The example below illustrates PSF photometry on the target \texttt{EPIC 246199087}
+        (Trappist-1):
+
+        \clh{If you want to include oktopus in this snippet you have to explain what it is to the reader:)}
+        \begin{verbatim}
+        >>> from lightkurve import KeplerTargetPixelFile
+        >>> from lightkurve.psf import PRFPhotometry, SceneModel
+        >>> from oktopus import UniformPrior
+        >>> tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
+        >>> prf = tpf.get_prf_model()
+        >>> prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
+        >>> scene = SceneModel(prf=[prfs])
+        >>> phot = PRFPhotometry(scene_model=scene, prior=prior)
+        >>> results = phot.fit(tpf.flux + tpf.flux_bkg)
+        \end{verbatim}
+
+        The photometric results are stored in a $c \times 4$ matrix, where $c$ is the
+        number of frames (cadences).
+
+\subsection{Correcting Common Systematics}
+
+    We provide tools to correct for two systematics that are common between targets on the same channel.
+    We provide corrections using \emph{Cotrending Basis Vectors} (CBVs) which mitigate systematics due to e.g. spacecraft heating. (See Appendix \ref{appendix:CBV} for a detailed explanation of CBVs)
+    We also provide a simple implementation of the \emph{Self Flat Fielding} (SFF) method to correct for spacecraft motion. (See Appendix \ref{appendix:motion} for a detailed explanation of SFF)
+
+    We only intend to provide simple tools.
+    Ideally, systematics are removed simultaneously with fitting a model (e.g. Montet and DFM 2015).
+
+
+    \subsubsection{Correcting Spacecraft Motion using Lightkurve}
+        Spacecraft-induced correlated noise remains one of the greatest hurdles to
+        analyzing K2 lightcurves. Many algorithms have been developed to mitigate
+        motion-dependent artifacts~\cite{vanderburg14}[CITE K2SC and EVEREST].
+        In \lightkurve, we implement an algorithm based off of the self-flat-field
+        (SFF) presented in~\cite{vanderburg14}.
+
+        SFF works by decorrelating the simple aperture flux
+        against the information on the spacecraft motion, obtained by computing the
+        arclength using the centroids of the target. (See Appendix \ref{appendix:motion} for a detailed explanation of SFF)
+
+        \begin{verbatim}
+        from lightkurve import KeplerTargetPixelFile
+        tpf = KeplerTargetPixelFile("ktwo248667471-c14_lpd-targ.fits.gz")
+        lc = tpf.to_lightcurve()
+        centroids = tpf.get_centroids()
+        lcc = lc.correct(centroids[0], centroids[1])
+        \end{verbatim}
+
+
+    \subsubsection{Correcting Common Systematics with CBVs using Lightkurve}
+
+        \clh{Simple paragraph describing CBVs}
+        Cotrending basis vectors (CBVs) can remove global correlated
+        systematics present in a given channel \cite{smith2012}.
+
+        An example of SAP flux correction for target \texttt{KOI 8462852}
+        (Tabby's star) can be written as follows
+        \begin{verbatim}
+        >>> from lightkurve.lightcurve import KeplerCBVCorrector
+        >>> cbv = KeplerCBVCorrector("kplr008462852-2011073133259_llc.fits")
+        >>> cbv_lc = cbv.correct(cbvs=[1,2])
+        \end{verbatim}
+
+        Fig~\ref{fig:cbv-correction} illustrates the correction. The pink line has a shift from
+        the green line because in \lightkurve~we do not account the flux lost outside of the aperture mask.
+
+        \begin{figure}[!htb]
+            \centering
+            \plotone{figs/cbv.pdf}
+            \caption{CBV correction applied on \texttt{KOI 8462852}
+            \clh{This is great, really valuable plot. I would just change to have two lines with labels corrected and uncorrected.}}
+            \label{fig:cbv-correction}
+        \end{figure}
+
+
+        Improperly tuning the number of CBVs can cause over-/under-fitting. One
+        way to identify a reasonable number of CBVs is to perform a grid search
+        as shown in Fig~(\ref{fig:cbv-grid-search}). The selection of the number of CBVs is set by inspecting the
+        grid search curve can be set through model comparison heuristics like AIC, BIC,
+        or cross-validation \cite{ivezi2014}.
+
+        In the same fashion, we can apply cotrending basis vector correction to
+        \ktwo lightcurves.
+
+
+\subsection{Recovering a planet signal}
+
+
+
+%CLH: This might be unnecessary
+\subsection{Light curves from large images}
+
+\section{Example Code Snippets}
+
+\subsection{Quickly recover a planet}
+\begin{figure}
+\plotone{figs/fold-lc.pdf}
+\caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
+            transit signal of Kepler-10b.
+\label{fig:fold-method}}
+\end{figure}
+
+\subsection{Correct a supernova light curve}
+
+\subsection{Background Subtraction for AGN}
+
+\section{Future work}
+
+Explain PSF photometry needs users and data-driven model capability.
+
+We do not intend to implement transit fitting, more advanced detrending, etc.
+Instead, lightkurve intends to provide the building blocks needed to build
+or interact with such packages.
+
+We intend to add many tutorials.
+
+Explain how people can contribute.
+
+
+\section{Conclusions}
+
+we will discuss => we have discussed
+
+
+
+
+
+
+\appendix
+\section{Cotrending basis vectors}
+\label{appendix:cbvs}
 
 Given a set of $n$ CBVs, one is interested in finding a vector of $n$
 coefficients $\bm{\theta}=(\theta_1, \theta_2, ..., \theta_n)$ which minimizes
@@ -386,46 +500,19 @@ Then, the CBV-corrected flux can be computed as
     f_{CBV} = f_{SAP} - \sum_{j=1}^{n}\theta^{\star}_j v_{j}(t).
 \end{equation}
 
-An example of SAP flux correction for target \texttt{KOI 8462852}
-(Tabby's star) can be written as follows
-\begin{verbatim}
->>> from lightkurve.lightcurve import KeplerCBVCorrector
->>> cbv = KeplerCBVCorrector("kplr008462852-2011073133259_llc.fits")
->>> cbv_lc = cbv.correct(cbvs=[1,2])
-\end{verbatim}
 
-Fig~\ref{fig:cbv-correction} illustrates the correction. The pink line has a shift from
-the green line because in \lightkurve~we do not account the flux lost outside of the aperture mask.
-
-\begin{figure}[!htb]
-    \centering
-    \plotone{figs/cbv.pdf}
-    \caption{CBV correction applied on \texttt{KOI 8462852}}
-    \label{fig:cbv-correction}
-\end{figure}
+%CLH: I don't think we need this figure
 
 
-Improperly tuning the number of CBVs can cause over-/under-fitting. One
-way to identify a reasonable number of CBVs is to perform a grid search
-as shown in Fig~(\ref{fig:cbv-grid-search}).
+%\begin{figure}
+%    \centering
+%    \plotone{figs/cbv-k2.pdf}
+%    \caption{CBV correction applied on \texttt{EPIC 201543306}.
+%    \label{fig:cbv-correction-k2}}
+%\end{figure}
 
-In the same fashion, we can apply cotrending basis vector correction to
-\ktwo lightcurves.
 
-Fig.~\ref{fig:cbv-correction-k2} shows the detrended lightcurve after estimating
-the first nine coefficients for CBV correciton on \ktwo target
- \texttt{EPIC 201543306}. The selection of the number of CBVs is set by inspecting the
-grid search curve can be set through model comparison heuristics like AIC, BIC,
-or cross-validation \cite{ivezi2014}.
-
-\begin{figure}
-    \centering
-    \plotone{figs/cbv-k2.pdf}
-    \caption{CBV correction applied on \texttt{EPIC 201543306}.
-    \label{fig:cbv-correction-k2}}
-\end{figure}
-
-\subsubsection{Number of CBVs}
+%I think this para will be moved in later versions, we don't need this figure,
 The number of CBVs will directly contribute to overfitting effects. One
 way to identify a reasonable number of CBVs is to perform a grid search
 as suggested in Fig~(\ref{fig:cbv-grid-search}), which shows the cost
@@ -434,15 +521,17 @@ CBVs increases, the value of the cost function decreases. And therefore,
 the user should empirically choose a number of CBVs which does not
 remove the astrophysical signal of interest [add reference].
 
-\begin{figure}[!htb]
-    \centering
-    \plotone{figs/cbv-grid-search.pdf}
-    \caption{Grid search on the number of CBVs}
-    \label{fig:cbv-grid-search}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%    \plotone{figs/cbv-grid-search.pdf}
+%    \caption{Grid search on the number of CBVs}
+%    \label{fig:cbv-grid-search}
+%\end{figure}
 
 % MGS note: Wait--- won't the cost function decrease monotonically for CBVs?
 % Do you use AIC or BIC or cross-validation?
+
+%CLH: This is a little detailed for this paper, I might consider just leaving it as ``we use BIC''
 An objective way of selecting the number of CBVs is to use Bayes' factors
 [add reference]. In the Bayes' factor setting, the selected number of
 CBVs is the one that provide the least gain in posterior probability, i.e.,
@@ -457,28 +546,16 @@ Estimator (MAP) obtained using $n$ CBVs.
 A Laplacian prior with zero mean and variance $16$ is the default prior
 density over the CBVs coefficients.
 
-\begin{figure}[!htb]
-    \centering
-    \plotone{figs/cbv-bayes-factor.pdf}
-    \caption{Bayes factors as a function of the number of CBVs for \texttt{EPIC 201543306}}
-    \label{fig:cbv-grid-search}
-\end{figure}
+%\begin{figure}[!htb]
+%    \centering
+%    \plotone{figs/cbv-bayes-factor.pdf}
+%    \caption{Bayes factors as a function of the number of CBVs for \texttt{EPIC 201543306}}
+%    \label{fig:cbv-grid-search}
+%\end{figure}
 
 
-\subsection{Point spread function photometry}
-
-Point Spread Function (PSF) photometry is the de facto technique to
-process crowded-field images~\cite{stetson1987, heasley1999}. In context of Kepler
-and K2 missions, Libralato \textit{et al}~\cite{libralato2016} have shown...
-
-The underlying principle of PSF photometry consists in modelling a given crowded
-image as a linear combination of individual PSFs and possibly a background model.
-On the PSF model itself, it is commonly assumed that the flux
-at an arbitrary pixel position increases linearly with the integrated
-flux~\cite{stetson1987, heasley1999}.
-
-\lightkurve ~contains routines to perform PSF photometry in TPFs
-which are implemented in the \texttt{psf} module.
+\section{Point spread function photometry}
+\label{appendix:psf}
 
 Briefly, the PSF photometry problem that \lightkurve~solves can be formulated as
 follows. Given an image $\bm{y}$, with $n$ pixels and $m$ stars, and a PSF model
@@ -502,46 +579,13 @@ as
 \end{align}
 in which $\Lambda$ is the support of $\bm{\theta}$.
 
-The example below illustrates PSF photometry on the target \texttt{EPIC 246199087}
-(Trappist-1):
-
-\begin{verbatim}
->>> from lightkurve import KeplerTargetPixelFile
->>> from lightkurve.psf import PRFPhotometry, SceneModel
->>> from oktopus import UniformPrior
->>> tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
->>> prf = tpf.get_prf_model()
->>> prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
->>> scene = SceneModel(prf=[prfs])
->>> phot = PRFPhotometry(scene_model=scene, prior=prior)
->>> results = phot.fit(tpf.flux + tpf.flux_bkg)
-\end{verbatim}
-
-The photometric results are stored in a $c \times 4$ matrix, where $c$ is the
-number of frames (cadences).
-
 Another important aspect is the PSF model...
 
-\subsection{Motion-dependent Correlated Noise}
-\label{subsection:motion}
+\section{Motion-dependent Correlated Noise}
+\label{appendix:motion}
 
-Spacecraft-induced correlated noise remains one of the greatest hurdles to
-analyzing K2 lightcurves. Many algorithms have been developed to mitigate
-motion-dependent artifacts~\cite{vanderburg14}[CITE K2SC and EVEREST].
-In \lightkurve, we implement an algorithm based off of the self-flat-field
-(SFF) presented in~\cite{vanderburg14}.
+\clh{Quick discussion of the SFF algorithm}
 
-Basically, SFF works by decorrelating the simple aperture flux
-against the information on the spacecraft motion, obtained by computing the
-arclength using the centroids of the target.
-
-\begin{verbatim}
-from lightkurve import KeplerTargetPixelFile
-tpf = KeplerTargetPixelFile("ktwo248667471-c14_lpd-targ.fits.gz")
-lc = tpf.to_lightcurve()
-centroids = tpf.get_centroids()
-lcc = lc.correct(centroids[0], centroids[1])
-\end{verbatim}
 
 %% If you wish to include an acknowledgments section in your paper,
 %% separate it off from the body of the text using the \acknowledgments
@@ -549,6 +593,7 @@ lcc = lc.correct(centroids[0], centroids[1])
 \acknowledgments
 
 We would like to express our gratitude...
+Funding sources
 
 \vspace{5mm}
 \facilities{Kepler}
@@ -564,9 +609,7 @@ We would like to express our gratitude...
 %% command and will number appendix equations (A1), (A2), etc. The
 %% Figure and Table counter will not reset.
 
-\appendix
 
-\section{Appendix information}
 
 \bibliographystyle{aasjournal}
 \bibliography{ms}

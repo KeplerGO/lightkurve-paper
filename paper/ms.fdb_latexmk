@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex ms"] 1522719110 "ms.aux" "ms.bbl" "ms" 1522719111
+["bibtex ms"] 1522807109 "ms.aux" "ms.bbl" "ms" 1522807175
   "./aasjournal.bst" 1522431090 37514 eb8cd7d6002e174d031081537b4ccfa9 ""
-  "ms.aux" 1522719111 5172 3d47d57601b6000884147dbc2e18c286 ""
+  "ms.aux" 1522807174 5726 4121c444cefc7807b96b04f693fe1a66 ""
   "ms.bib" 1522431090 4588 c05d50922fd4949c401667d30a20d46c ""
   (generated)
-  "ms.blg"
   "ms.bbl"
-["pdflatex"] 1522719110 "ms.tex" "ms.pdf" "ms" 1522719111
+  "ms.blg"
+["pdflatex"] 1522807174 "ms.tex" "ms.pdf" "ms" 1522807175
   "/usr/local/texlive/2017/texmf-dist/fonts/map/fontname/texfonts.map" 1480098670 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/adobe/helvetic/phvr.tfm" 1480098688 2504 ba6584b616b92101c768b6c4ffb32dd0 ""
   "/usr/local/texlive/2017/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -151,17 +151,14 @@
   "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1495593487 4129592 0e6cfee100d68e6d96b92c0258f2ff73 ""
   "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
   "aastex62.cls" 1522431090 210522 3ccb99937c19b008a65ac39ebedf9ee4 ""
-  "figs/cbv-bayes-factor.pdf" 1522431090 11665 8d3afe910da787676e358184714970d2 ""
-  "figs/cbv-grid-search.pdf" 1522431090 12441 2e9be029724926a5495fc8fa76d63600 ""
-  "figs/cbv-k2.pdf" 1522431090 2672427 6c5dfa6935629b383223177ed792c8ca ""
   "figs/cbv.pdf" 1522431090 2141432 d9920f9d0adc20e5bacfbc7d611a6661 ""
   "figs/fold-lc.pdf" 1522431090 1045272 07ef44e10561c31c753faaaf97026331 ""
   "figs/tpf-plot-aperture.pdf" 1522431090 183633 157cf8ba1ce4f4611c6f646e482cc754 ""
   "figs/tpf-plot.pdf" 1522431090 183230 dfbb4ac5b43847caca6cb3e1804efec8 ""
-  "ms.aux" 1522719111 5172 3d47d57601b6000884147dbc2e18c286 ""
-  "ms.bbl" 1522719110 1711 43b4b47b67e96acf0a9cbefd0b75e9bb "bibtex ms"
-  "ms.tex" 1522719108 23471 8599c1c18b843cef87a06bae71a336a7 ""
+  "ms.aux" 1522807174 5726 4121c444cefc7807b96b04f693fe1a66 ""
+  "ms.bbl" 1522807109 1711 43b4b47b67e96acf0a9cbefd0b75e9bb "bibtex ms"
+  "ms.tex" 1522807172 26145 5bbefae37e7078fdb38dd8e7bcb452ee ""
   (generated)
-  "ms.aux"
   "ms.log"
+  "ms.aux"
   "ms.pdf"
