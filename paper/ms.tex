@@ -27,6 +27,8 @@
 \usepackage{amsmath, amssymb, mathtools, bm}
 \usepackage{color}
 
+\usepackage[cache=false]{minted}
+
 \newcommand{\ktwo}{{\it K$\mathit{2}$}}
 \newcommand{\tess}{{\it TESS}}
 \newcommand{\kepler}{{\it Kepler}}
@@ -38,6 +40,7 @@
 \newcommand{\clh}[1]{\textcolor{red}{ \textbf{***CLH: #1 ***}}}
 \newcommand{\ze}[1]{\textcolor{blue}{ \textbf{***CLH: #1 ***}}}
 \newcommand{\gb}[1]{\textcolor{green}{ \textbf{***CLH: #1 ***}}}
+
 
 
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -175,63 +178,63 @@ and removing systematics from lightcurves.
 \clh{Ze can you do a beautiful diagram here?}
 
 \subsection{The \LightCurve~and \KeplerLightCurve~classes}
-        The \LightCurve~class is a simple cointainer to store \numpy~arrays
-        (hereafter, arrays) related to flux time-domain measurements.
+The \LightCurve~class is a simple cointainer to store \numpy~arrays
+(hereafter, arrays) related to flux time-domain measurements.
 
-        The \LightCurve~object provides methods to store, process, and
-        convert lightcurves. Table~\ref{tab:methods} contains a description
-        of a subset of the methods.
+The \LightCurve~object provides methods to store, process, and
+convert lightcurves. Table~\ref{tab:methods} contains a description
+of a subset of the methods.
 
-        A \LightCurve~object can be instantiated by passing a \texttt{time}
-        array, a \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
-        which accounts for uncertainties in the \texttt{flux} measurements, i.e.,
-\begin{verbatim}
+A \LightCurve~object can be instantiated by passing a \texttt{time}
+array, a \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
+which accounts for uncertainties in the \texttt{flux} measurements, i.e.,
+\begin{minted}{python}
 >>> from lightkurve import LightCurve
 >>> lc = LightCurve(time, flux)
-\end{verbatim}
+\end{minted}
 
-       The \KeplerLightCurve class extends \LightCurve by
-       adding attributes to store metadata information such as channel number,
-       quality flags, campaign or quarter number, kepler id, etc.
+The \KeplerLightCurve class extends \LightCurve by
+adding attributes to store metadata information such as channel number,
+quality flags, campaign or quarter number, kepler id, etc.
 
-       Additionally, \texttt{KeplerLightCurve} can be corrected for motion-dependent
-       correlated noise using the \texttt{correct} method which will be discussed in
-       Section~\ref{subsection:motion}.
+Additionally, \texttt{KeplerLightCurve} can be corrected for motion-dependent
+correlated noise using the \texttt{correct} method which will be discussed in
+Section~\ref{subsection:motion}.
 
 \subsection{The \texttt{KeplerLightCurveFile} class}
-        The \texttt{KeplerLightCurveFile} class defines a structure to deal
-        with lightcurve files from both NASA's Kepler and K2 missions.
+The \texttt{KeplerLightCurveFile} class defines a structure to deal
+with lightcurve files from both NASA's Kepler and K2 missions.
 
-        To instantiate a \texttt{KeplerLightCurveFile} object, it is necessary
-        to pass a \texttt{path} which represents the address (url or local path)
-        of a lightcurve file in the fits (or compressed) format, and a
-        \texttt{quality\_bitmask} string which specifies quality
-        flags of cadences that should be ignored.
+To instantiate a \texttt{KeplerLightCurveFile} object, it is necessary
+to pass a \texttt{path} which represents the address (url or local path)
+of a lightcurve file in the fits (or compressed) format, and a
+\texttt{quality\_bitmask} string which specifies quality
+flags of cadences that should be ignored.
 
-        One crucial method of the \texttt{KeplerLightCurveFile} class is
-        \texttt{get\_lightcurve} which returns a \texttt{KeplerLightCurve} object
-        with the metadata provided by the corresponding \texttt{KeplerLightCurveFile}.
+One crucial method of the \texttt{KeplerLightCurveFile} class is
+\texttt{get\_lightcurve} which returns a \texttt{KeplerLightCurve} object
+with the metadata provided by the corresponding \texttt{KeplerLightCurveFile}.
 
-        Therefore, one can, for example, perform the following series of operations
-        in order to fold a lightcurve from the MAST archive
-\begin{verbatim}
+Therefore, one can, for example, perform the following series of operations
+in order to fold a lightcurve from the MAST archive
+\begin{minted}{python}
 >>> lc_file = KeplerLightCurveFile("kplr011904151-2009350155506_llc.fits")
 >>> klc = lc_file.PDCSAP_FLUX.fold(period=0.837495)
 >>> klc.plot()
-\end{verbatim}
+\end{minted}
 
 \subsection{The \texttt{KeplerTargetPixelFile} class}
-        A \texttt{KeplerTargetPixelFile} object can be instantiated
-        by passing a \texttt{path} (URL or local) of a target pixel file.
-        Optionally, the user can elect to throw away frames that contain
-        a specific flag by using the \texttt{quality\_bitmask} argument.
+A \texttt{KeplerTargetPixelFile} object can be instantiated
+by passing a \texttt{path} (URL or local) of a target pixel file.
+Optionally, the user can elect to throw away frames that contain
+a specific flag by using the \texttt{quality\_bitmask} argument.
 
-        \texttt{KeplerTargetPixelFile} offers a number of methods
-        that range from getting raw aperture photometry lightcurves to
-        data visualization.
+\texttt{KeplerTargetPixelFile} offers a number of methods
+that range from getting raw aperture photometry lightcurves to
+data visualization.
 
-        For instance, the method \texttt{plot} can be used to visualize a
-        given frame, which are depicted in Fig.~\ref{fig:plot-method}.
+For instance, the method \texttt{plot} can be used to visualize a
+given frame, which are depicted in Fig.~\ref{fig:plot-method}.
 
 \begin{verbatim}
 >>> import numpy as np
