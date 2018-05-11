@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{k+kn}{from} \PYG{n+nn}{lightkurve} \PYG{k+kn}{import} \PYG{n}{LightCurve}
+\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}} \PYG{n}{lc} \PYG{o}{=} \PYG{n}{LightCurve}\PYG{p}{(}\PYG{n}{time}\PYG{p}{,} \PYG{n}{flux}\PYG{p}{)}
+\end{Verbatim}

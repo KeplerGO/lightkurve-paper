@@ -49,16 +49,10 @@
 \newcommand\aastex{AAS\TeX}
 \newcommand\latex{La\TeX}
 
-%% Reintroduced the \received and \accepted commands from AASTeX v5.2
 \received{January 1, 2018}
 \revised{January 7, 2018}
 \accepted{\today}
-%% Command to document which AAS Journal the manuscript was submitted to.
-%% Adds "Submitted to " the arguement.
 \submitjournal{ApJ}
-
-%\shorttitle{Sample article}
-%\shortauthors{Schwarz et al.}
 
 \begin{document}
 
@@ -77,23 +71,7 @@ California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
-\gb{Key messages are: WHY do users need to create their own products? (RB, asteroids, variable apertures, crowding etcetc). WHAT are we providing? (lightkurve, easy Kepler/K2/TESS access). HOW can they use it? (Beautiful examples)}
-  \begin{itemize}
-  \item{Performing custom photometry allows users to mitigate...}
-  \item{However, with complex `big' data from \kepler and \ktwo...}
-  \item{We present \lightkurve, an open source package for analysis of flux time series using Python.}
-  \item{It is a multipurpose, general tool to make producing time-series photometry from raw pixel data easier and more reproducible between different teams.}
-  \item{\lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions.}
-  \item{Using these tools it is simple to create corrected time-series photometry from raw pixel data from any of these missions.}
-  \item{Easy to interact with raw data products and produce fantastic light curves}
-  \item{Open source, modable}
-  \item{Supremely reproducible.}
-  \item{Go from raw data to planet in 5 lines of code.}
-  \item{Excellent learning tool}
-  \end{itemize}
-
-\clh{
-What plots do we want? These should be our KILLER selling points. All graphs should be easy to understand as standalone figures. These are what will grab people! But let's keep it short and sweet.
+\clh{Key messages are: WHY do users need to create their own products? (RB, asteroids, variable apertures, crowding etcetc). WHAT are we providing? (lightkurve, easy Kepler/K2/TESS access). HOW can they use it? (Beautiful examples). Plots:
   \begin{itemize}
   \item{Beautiful TPF and masking}
   \item{Beautiful flattening?}
@@ -102,6 +80,12 @@ What plots do we want? These should be our KILLER selling points. All graphs sho
   \item{Beautiful planet finding}
   \end{itemize}
 }
+
+
+
+  The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects. These ready-made light curves have allowed the community to quickly investigate targets. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as aperture choice and background correction. These assumption are valid for the majority of targets, but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline. Working directly with the pixel data allows users to check for cosmic rays or stray asteroids in the target aperture.
+
+ We present \lightkurve~, an open source package for analysis of flux time series pixel using Python. \lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. It is a multipurpose, general tool to make producing time-series photometry from raw pixel data easier and more reproducible between different teams. Using \lightkurve~ tools it is simple to create corrected time-series photometry from raw pixel data from any of these missions and perform many common light curve corrections, including correcting for K2 motion using the SFF method. \lightkurve~ is open source, modable and provides an excellent learning tool for any users wanting to get to started with Kepler data.
 
 \end{abstract}
 
@@ -422,12 +406,10 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
 
 
 
-%CLH: This might be unnecessary
-\subsection{Light curves from large images}
 
 \section{Example Code Snippets}
 
-\subsection{Quickly recover a planet}
+\subsection{Recover a Planet in 5 lines}
 \begin{figure}
 \plotone{figs/fold-lc.pdf}
 \caption{Folded lightcurve of target \texttt{KIC011904151} quarter 3, showing the
@@ -435,9 +417,8 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
 \label{fig:fold-method}}
 \end{figure}
 
-\subsection{Correct a supernova light curve}
 
-\subsection{Background Subtraction for AGN}
+
 
 \section{Future work}
 
@@ -504,17 +485,6 @@ Then, the CBV-corrected flux can be computed as
 \end{equation}
 
 
-%CLH: I don't think we need this figure
-
-
-%\begin{figure}
-%    \centering
-%    \plotone{figs/cbv-k2.pdf}
-%    \caption{CBV correction applied on \texttt{EPIC 201543306}.
-%    \label{fig:cbv-correction-k2}}
-%\end{figure}
-
-
 %I think this para will be moved in later versions, we don't need this figure,
 The number of CBVs will directly contribute to overfitting effects. One
 way to identify a reasonable number of CBVs is to perform a grid search
@@ -524,12 +494,6 @@ CBVs increases, the value of the cost function decreases. And therefore,
 the user should empirically choose a number of CBVs which does not
 remove the astrophysical signal of interest [add reference].
 
-%\begin{figure}[!htb]
-%    \centering
-%    \plotone{figs/cbv-grid-search.pdf}
-%    \caption{Grid search on the number of CBVs}
-%    \label{fig:cbv-grid-search}
-%\end{figure}
 
 % MGS note: Wait--- won't the cost function decrease monotonically for CBVs?
 % Do you use AIC or BIC or cross-validation?
@@ -548,14 +512,6 @@ Estimator (MAP) obtained using $n$ CBVs.
 
 A Laplacian prior with zero mean and variance $16$ is the default prior
 density over the CBVs coefficients.
-
-%\begin{figure}[!htb]
-%    \centering
-%    \plotone{figs/cbv-bayes-factor.pdf}
-%    \caption{Bayes factors as a function of the number of CBVs for \texttt{EPIC 201543306}}
-%    \label{fig:cbv-grid-search}
-%\end{figure}
-
 
 \section{Point spread function photometry}
 \label{appendix:psf}
@@ -588,11 +544,6 @@ Another important aspect is the PSF model...
 \label{appendix:motion}
 
 \clh{Quick discussion of the SFF algorithm}
-
-
-%% If you wish to include an acknowledgments section in your paper,
-%% separate it off from the body of the text using the \acknowledgments
-%% command.
 \acknowledgments
 
 We would like to express our gratitude...
@@ -602,16 +553,6 @@ Funding sources
 \facilities{Kepler}
 
 \software{astropy}
-
-%% Appendix material should be preceded with a single \appendix command.
-%% There should be a \section command for each appendix. Mark appendix
-%% subsections with the same markup you use in the main body of the paper.
-
-%% Each Appendix (indicated with \section) will be lettered A, B, C, etc.
-%% The equation counter will reset when it encounters the \appendix
-%% command and will number appendix equations (A1), (A2), etc. The
-%% Figure and Table counter will not reset.
-
 
 
 \bibliographystyle{aasjournal}
