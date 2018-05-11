@@ -10,8 +10,6 @@ dump: wrote maskfile.txt
 * Gully: "What tools are currently available"
 * Geert: Introduction/Background on Kepler
 * AMC: PSF Photometry. (This section is currently maths and no motivation.)
-* Ze: Motion dependent correlated Noise
-* Ze: Class diagram
 
 
 ## Diagnosis
