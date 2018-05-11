@@ -71,36 +71,23 @@ California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
-\clh{Key messages are: WHY do users need to create their own products? (RB, asteroids, variable apertures, crowding etcetc). WHAT are we providing? (lightkurve, easy Kepler/K2/TESS access). HOW can they use it? (Beautiful examples). Plots:
-  \begin{itemize}
-  \item{Beautiful TPF and masking}
-  \item{Beautiful flattening?}
-  \item{Beautiful motion detrending}
-  \item{Beautiful CBV correction}
-  \item{Beautiful planet finding}
-  \end{itemize}
-}
-
-
-
-  The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects. These ready-made light curves have allowed the community to quickly investigate targets. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as aperture choice and background correction. These assumption are valid for the majority of targets, but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline. Working directly with the pixel data allows users to check for cosmic rays or stray asteroids in the target aperture.
-
- We present \lightkurve~, an open source package for analysis of flux time series pixel using Python. \lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. It is a multipurpose, general tool to make producing time-series photometry from raw pixel data easier and more reproducible between different teams. Using \lightkurve~ tools it is simple to create corrected time-series photometry from raw pixel data from any of these missions and perform many common light curve corrections, including correcting for K2 motion using the SFF method. \lightkurve~ is open source, modable and provides an excellent learning tool for any users wanting to get to started with Kepler data.
-
+The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects. These ready-made light curves have allowed the community to quickly investigate targets and find exoplanet candidates. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as aperture choice and background correction methods. These assumption are valid for the majority of targets, but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline. Working directly with the pixel data allows users to check the data quality, mitigate and remove cosmic rays or identify stray asteroids in the target aperture. To this end, we present \lightkurve, an open source package for analyzing time-series pixel data using Python. \lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. Using \lightkurve~ tools it is simple and quick to create corrected time-series photometry from raw pixel data from any of these missions and perform many common light curve corrections, including correcting for K2 motion using the SFF method. \lightkurve~ is open source and provides an excellent learning tool for any users wanting to get to started with Kepler data.
+ 
 \end{abstract}
 
-\keywords{}
+\keywords{christina}
 
 \section{Introduction} \label{sec:intro}
 
-\paragraph{What is the background}
-\begin{itemize}
-\item{Time series photometry is available for a wide variety of astrophysical purposes and in a wide variety of formats.}
-\item{This ranges from 30 year long time series of variable stars\cite{citationneeded} to short time-series of hours for X-Ray objects \cite{citationneeded}}
-\item{In particular, NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}.}
-\item{In the near future the \tess mission will delivering high-precision time series data for 90\% of the sky, providing light curves for X millions of object \cite{citationneeded}.}
-\item{\clh{What are the challenges we face in time-series astronomy?}}
-\end{itemize}
+Time series photometry of a wide variety of astrophysical targets is available from a myriad of ground and spaced based missions, in an assortment of formats. This ranges from 30 year long time series of variable stars\cite{citationneeded} to short time-series of hours for X-Ray objects 
+\clh{What are the challenges we face in time-series astronomy?}
+
+NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}. \kepler has delivered time-series photometry >200,000 objects in the visible with a four year long baseline, allowing for continuous monitoring of potential exoplanet hosting systems and characterization of host stars. 
+
+Since the loss of a second reaction wheel in 2009 the Kepler mission was repurposed into the K2 mission.
+
+In the near future the \tess mission will delivering high-precision time series data for 90\% of the sky, providing light curves for X millions of object \cite{citationneeded}.
+
 
 \paragraph{What tools are currently available?}
 \begin{itemize}
