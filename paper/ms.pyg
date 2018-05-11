@@ -1,2 +1,0 @@
->>> from lightkurve import LightCurve
->>> lc = LightCurve(time, flux)

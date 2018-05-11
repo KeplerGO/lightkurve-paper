@@ -8,6 +8,11 @@ dump: wrote maskfile.txt
 * Christina: Generate plots with new code/new styles
 * Christina: Recovering a planet section
 * Gully: "What tools are currently available"
-* Geert: Introduction/Background
+* Geert: Introduction/Background on Kepler
+* AMC: PSF Photometry. (This section is currently maths and no motivation.)
+* Ze: Motion dependent correlated Noise
+* Ze: Class diagram
 
+
+## Diagnosis
 ![](texdiag.png)
