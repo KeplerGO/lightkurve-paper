@@ -336,9 +336,9 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
     \subsubsection{Correcting Spacecraft Motion using Lightkurve}
         Spacecraft-induced correlated noise remains one of the greatest hurdles to
         analyzing K2 lightcurves. Many algorithms have been developed to mitigate
-        motion-dependent artifacts~\cite{vanderburg14}[CITE K2SC and EVEREST].
+        motion-dependent artifacts~\cite{vanderburg2014}[CITE K2SC and EVEREST].
         In \lightkurve, we implement an algorithm based off of the self-flat-field
-        (SFF) presented in~\cite{vanderburg14}.
+        (SFF) presented in~\cite{vanderburg2014}.
 
         SFF works by decorrelating the simple aperture flux
         against the information on the spacecraft motion, obtained by computing the
@@ -502,6 +502,15 @@ density over the CBVs coefficients.
 
 \section{Point spread function photometry}
 \label{appendix:psf}
+
+NASA's Kepler and K2 missions have been delivering high-precision time series data
+for a wide range of stellar types through the official~\cite{jenkins2010} and community-developed
+pipelines~\cite{vanderburg2014, luger2016, aigrain2016}. Although those pipelines have
+been extremely successful, they tend to focus on studying isolated targets using simple
+aperture photometry and often underperform in crowded fields.
+However, crowded fields are frequent in many K2 campaigns and will
+be a major characteristic of TESS [ADD CITATION]. Therefore, pipelines that can deal with
+crowding in a principled way will play a key role on processing such type of data.
 
 Briefly, the PSF photometry problem that \lightkurve~solves can be formulated as
 follows. Given an image $\bm{y}$, with $n$ pixels and $m$ stars, and a PSF model
