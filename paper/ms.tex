@@ -36,7 +36,6 @@
 \newcommand{\LightCurve}{\texttt{LightCurve}}
 \newcommand{\KeplerLightCurve}{\texttt{KeplerLightCurve}}
 \newcommand{\numpy}{\texttt{numpy}}
-\newcommand{\code}{\texttt}
 \newcommand{\clh}[1]{\textcolor{red}{ \textbf{***CLH: #1 ***}}}
 \newcommand{\ze}[1]{\textcolor{blue}{ \textbf{***CLH: #1 ***}}}
 \newcommand{\gb}[1]{\textcolor{green}{ \textbf{***CLH: #1 ***}}}
@@ -71,21 +70,21 @@ California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
-    The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects.
+    The \kepler~ and \ktwo~ missions has provided the astronomy community with light curves of more than 400,000 objects.
     These ready-made light curves have allowed the community to quickly investigate targets and find exoplanet
-    candidates. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as
-    aperture choice and background correction methods. These assumption are valid for the majority of targets,
-    but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw
-    Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their
-    particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline.
+    candidates. However, light curves processed by the Kepler pipeline have built-in, fixed assumptions, such as
+    aperture choice and background correction methods. These assumptions are valid for the majority of targets,
+    but for certain science cases a bespoke analysis may be more valuable. Performing custom photometry with the raw
+    \kepler~ data has many benefits. Working with the raw data allows users to mitigate systematics for their
+    particular science case, (such as the \kepler~ Rolling band) and verify the aperture selected by the pipeline.
     Working directly with the pixel data allows users to check the data quality, mitigate and remove cosmic
     rays or identify stray asteroids in the target aperture. To this end, we present \lightkurve, an open
     source package for analyzing time-series pixel data using Python. \lightkurve~ is designed to interface
-    seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. Using \lightkurve~ tools it is
+    seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. Using \lightkurve, it is
     simple and quick to create corrected time-series photometry from raw pixel data from any of these
-    missions and perform many common light curve corrections, including correcting for K2 motion using
-    the SFF method and correcting for correlated trends using cotrend basis vectors.
-    \lightkurve~ is open source and provides an excellent learning tool for any users wanting
+    missions and perform many common light curve corrections, including correcting for spacecraft motion induced
+    noise using the self-flat-field method and correcting for correlated trends using cotrend basis
+    vectors. \lightkurve~ is open source and provides an excellent learning tool for any users wanting
     to get to started with Kepler data.
 \end{abstract}
 
