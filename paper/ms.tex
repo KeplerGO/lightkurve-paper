@@ -71,17 +71,35 @@ California, USA}
 \collaboration{(AAS Journals Data Scientists collaboration)}
 
 \begin{abstract}
-The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects. These ready-made light curves have allowed the community to quickly investigate targets and find exoplanet candidates. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as aperture choice and background correction methods. These assumption are valid for the majority of targets, but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline. Working directly with the pixel data allows users to check the data quality, mitigate and remove cosmic rays or identify stray asteroids in the target aperture. To this end, we present \lightkurve, an open source package for analyzing time-series pixel data using Python. \lightkurve~ is designed to interface seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. Using \lightkurve~ tools it is simple and quick to create corrected time-series photometry from raw pixel data from any of these missions and perform many common light curve corrections, including correcting for K2 motion using the SFF method. \lightkurve~ is open source and provides an excellent learning tool for any users wanting to get to started with Kepler data.
+    The Kepler/K2 mission has provided the astronomy community with light curves of more than 400,000 objects.
+    These ready-made light curves have allowed the community to quickly investigate targets and find exoplanet
+    candidates. However, light curves built by the Kepler pipeline have built-in, fixed assumptions, such as
+    aperture choice and background correction methods. These assumption are valid for the majority of targets,
+    but for certain science cases a bespoke analysis may be needed. Performing custom photometry with the raw
+    Kepler data has many benefits. Working with the raw data allows users to mitigate systematics for their
+    particular science case, (such as the Kepler Rolling band) and verify the aperture selected by the pipeline.
+    Working directly with the pixel data allows users to check the data quality, mitigate and remove cosmic
+    rays or identify stray asteroids in the target aperture. To this end, we present \lightkurve, an open
+    source package for analyzing time-series pixel data using Python. \lightkurve~ is designed to interface
+    seemlessly with data from NASA's \kepler, \ktwo~ and \tess~ missions. Using \lightkurve~ tools it is
+    simple and quick to create corrected time-series photometry from raw pixel data from any of these
+    missions and perform many common light curve corrections, including correcting for K2 motion using
+    the SFF method and correcting for correlated trends using cotrend basis vectors.
+    \lightkurve~ is open source and provides an excellent learning tool for any users wanting
+    to get to started with Kepler data.
 \end{abstract}
 
 \keywords{christina}
 
 \section{Introduction} \label{sec:intro}
 
-Time series photometry of a wide variety of astrophysical targets is available from a myriad of ground and spaced based missions, in an assortment of formats. This ranges from 30 year long time series of variable stars\cite{citationneeded} to short time-series of hours for X-Ray objects
+Time series photometry of a wide variety of astrophysical targets is available from a
+myriad of ground and spaced based missions, in an assortment of formats. This ranges
+from 30 year long time series of variable stars\cite{citationneeded} to short
+time-series of hours for X-Ray objects
 \clh{What are the challenges we face in time-series astronomy?}
 
-NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}. \kepler has delivered time-series photometry >200,000 objects in the visible with a four year long baseline, allowing for continuous monitoring of potential exoplanet hosting systems and characterization of host stars. 
+NASA's \kepler and \ktwo missions have provided some of the most precise, long term monitoring of stars to date \cite{citationneeded}. \kepler has delivered time-series photometry >200,000 objects in the visible with a four year long baseline, allowing for continuous monitoring of potential exoplanet hosting systems and characterization of host stars.
 
 Since the loss of a second reaction wheel in 2009 the Kepler mission was repurposed into the K2 mission.
 
@@ -141,7 +159,6 @@ and removing systematics from lightcurves.
 \end{itemize}
 
 
-
 \section{Package overview}
 
 
@@ -159,8 +176,8 @@ A \LightCurve~object can be instantiated by passing a \texttt{time}
 array, a \texttt{flux} array, and, optionally, a \texttt{flux\_err} array
 which accounts for uncertainties in the \texttt{flux} measurements, i.e.,
 \begin{minted}{python}
->>> from lightkurve import LightCurve
->>> lc = LightCurve(time, flux)
+from lightkurve import LightCurve
+lc = LightCurve(time, flux)
 \end{minted}
 
 The \KeplerLightCurve class extends \LightCurve by
@@ -188,9 +205,9 @@ with the metadata provided by the corresponding \texttt{KeplerLightCurveFile}.
 Therefore, one can, for example, perform the following series of operations
 in order to fold a lightcurve from the MAST archive
 \begin{minted}{python}
->>> lc_file = KeplerLightCurveFile("kplr011904151-2009350155506_llc.fits")
->>> klc = lc_file.PDCSAP_FLUX.fold(period=0.837495)
->>> klc.plot()
+lc_file = KeplerLightCurveFile("kplr011904151-2009350155506_llc.fits")
+klc = lc_file.PDCSAP_FLUX.fold(period=0.837495)
+klc.plot()
 \end{minted}
 
 \subsection{The \texttt{KeplerTargetPixelFile} class}
@@ -206,13 +223,13 @@ data visualization.
 For instance, the method \texttt{plot} can be used to visualize a
 given frame, which are depicted in Fig.~\ref{fig:plot-method}.
 
-\begin{verbatim}
->>> import numpy as np
->>> from lightkurve import KeplerTargetPixelFile
->>> tpf = KeplerTargetPixelFile("kplr008462852-2011073133259_lpd-targ.fits")
->>> tpf.plot()
->>> tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
-\end{verbatim}
+\begin{minted}{python}
+import numpy as np
+from lightkurve import KeplerTargetPixelFile
+tpf = KeplerTargetPixelFile("kplr008462852-2011073133259_lpd-targ.fits")
+tpf.plot()
+tpf.plot(aperture_mask=tpf.flux[0] > np.nanmean(tpf.flux[0]))
+\end{minted}
 
 \begin{figure}[!htb]
     \centering
@@ -233,11 +250,11 @@ may be expressed as
 \end{align}
 
 In \texttt{lightkurve}, the centroids in every cadence can be computed as
-\begin{verbatim}
->>> from lightkurve import KeplerTargetPixelFile
->>> tpf = KeplerTargetPixelFile('ktwo246199087-c12_lpd-targ.fits.gz')
->>> x_star, y_star = tpf.get_centroids()
-\end{verbatim}
+\begin{minted}{python}
+from lightkurve import KeplerTargetPixelFile
+tpf = KeplerTargetPixelFile('ktwo246199087-c12_lpd-targ.fits.gz')
+x_star, y_star = tpf.get_centroids()
+\end{minted}
 
 
 \clh{This table I believe needs a little updating? There can also be a second table for TPF}
@@ -307,17 +324,17 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
         (Trappist-1):
 
         \clh{If you want to include oktopus in this snippet you have to explain what it is to the reader:)}
-        \begin{verbatim}
-        >>> from lightkurve import KeplerTargetPixelFile
-        >>> from lightkurve.psf import PRFPhotometry, SceneModel
-        >>> from oktopus import UniformPrior
-        >>> tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
-        >>> prf = tpf.get_prf_model()
-        >>> prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
-        >>> scene = SceneModel(prf=[prfs])
-        >>> phot = PRFPhotometry(scene_model=scene, prior=prior)
-        >>> results = phot.fit(tpf.flux + tpf.flux_bkg)
-        \end{verbatim}
+\begin{minted}{python}
+from lightkurve import KeplerTargetPixelFile
+from lightkurve.psf import PRFPhotometry, SceneModel
+from oktopus import UniformPrior
+tpf = KeplerTargetPixelFile("ktwo246199087-c12_lpd-targ.fits.gz")
+prf = tpf.get_prf_model()
+prior = UniformPrior(lb=[4e3, 990, 25, 1], ub=[2e4, 996, 30, 2e3])
+scene = SceneModel(prf=[prfs])
+phot = PRFPhotometry(scene_model=scene, prior=prior)
+results = phot.fit(tpf.flux + tpf.flux_bkg)
+\end{minted}
 
         The photometric results are stored in a $c \times 4$ matrix, where $c$ is the
         number of frames (cadences).
@@ -332,7 +349,7 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
     Ideally, systematics are removed simultaneously with fitting a model (e.g. Montet and DFM 2015).
 
 
-    \subsubsection{Correcting Spacecraft Motion using Lightkurve}
+    \subsubsection{Correcting Spacecraft Motion}
         Spacecraft-induced correlated noise remains one of the greatest hurdles to
         analyzing K2 lightcurves. Many algorithms have been developed to mitigate
         motion-dependent artifacts~\cite{vanderburg2014}[CITE K2SC and EVEREST].
@@ -343,16 +360,16 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
         against the information on the spacecraft motion, obtained by computing the
         arclength using the centroids of the target. (See Appendix \ref{appendix:motion} for a detailed explanation of SFF)
 
-        \begin{verbatim}
-        from lightkurve import KeplerTargetPixelFile
-        tpf = KeplerTargetPixelFile("ktwo248667471-c14_lpd-targ.fits.gz")
-        lc = tpf.to_lightcurve()
-        centroids = tpf.get_centroids()
-        lcc = lc.correct(centroids[0], centroids[1])
-        \end{verbatim}
+\begin{minted}{python}
+from lightkurve import KeplerTargetPixelFile
+tpf = KeplerTargetPixelFile("ktwo248667471-c14_lpd-targ.fits.gz")
+lc = tpf.to_lightcurve()
+centroids = tpf.get_centroids()
+lcc = lc.correct(centroids[0], centroids[1])
+\end{minted}
 
 
-    \subsubsection{Correcting Common Systematics with CBVs using Lightkurve}
+    \subsubsection{Correcting Common Systematics with CBVs}
 
         \clh{Simple paragraph describing CBVs}
         Cotrending basis vectors (CBVs) can remove global correlated
@@ -360,11 +377,11 @@ In \texttt{lightkurve}, the centroids in every cadence can be computed as
 
         An example of SAP flux correction for target \texttt{KOI 8462852}
         (Tabby's star) can be written as follows
-        \begin{verbatim}
-        >>> from lightkurve.lightcurve import KeplerCBVCorrector
-        >>> cbv = KeplerCBVCorrector("kplr008462852-2011073133259_llc.fits")
-        >>> cbv_lc = cbv.correct(cbvs=[1,2])
-        \end{verbatim}
+\begin{minted}{python}
+from lightkurve.lightcurve import KeplerCBVCorrector
+cbv = KeplerCBVCorrector("kplr008462852-2011073133259_llc.fits")
+cbv_lc = cbv.correct(cbvs=[1,2])
+\end{minted}
 
         Fig~\ref{fig:cbv-correction} illustrates the correction. The pink line has a shift from
         the green line because in \lightkurve~we do not account the flux lost outside of the aperture mask.
